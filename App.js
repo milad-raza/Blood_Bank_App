@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import { StatusBar } from 'react-native';
 import AppNavigation from "./src/config/navigation";
 
 const App: () => React$Node = () => {
@@ -15,9 +9,5 @@ const App: () => React$Node = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  
-});
 
 export default App;
