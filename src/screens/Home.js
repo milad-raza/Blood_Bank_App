@@ -33,7 +33,7 @@ function Home(props) {
           style={styles.createCont}
           activeOpacity={0.5}
           onPress={() => {
-            props.navigation.navigate('Sign Up');
+            props.navigation.navigate('Create Account');
           }}>
           <Text style={styles.create}>Create Account</Text>
         </TouchableOpacity>

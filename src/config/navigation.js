@@ -2,7 +2,7 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Home from '../screens/Home';
-import Signup from '../screens/Signup';
+import Signup from '../screens/CreateAccount';
 import Login from '../screens/Login';
 
 const Stack = createStackNavigator();
@@ -17,7 +17,7 @@ function AppNavigation() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Sign Up"
+          name="Create Account"
           component={Signup}
           options={{
             headerTintColor: '#ffffff',
