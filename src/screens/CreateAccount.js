@@ -17,8 +17,11 @@ import {
   Label,
   Button,
 } from 'native-base';
+import auth from "@react-native-firebase/auth";
+import database from "@react-native-firebase/database";
 
 export default function Signup() {
+  const cityInput = useRef();
   const emailInput = useRef();
   const mobileInput = useRef();
   const passwordInput = useRef();
@@ -26,18 +29,23 @@ export default function Signup() {
   const createAccount = useRef();
 
   const [name,setName] = useState("")
+  const [city,setCity] = useState("")
   const [email,setEmail] = useState("")
   const [mobile,setMobile] = useState("")
   const [password,setPassword] = useState("")
   const [confirmPassword,setConfirmPassword] = useState("")
 
   const nameValidation = /([A-Za-z])\w/;
+  const cityValidation = /([A-Za-z])\w/;
   const emailValidation = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
   const passwordValidation = /^[A-Za-z[0-9]\w{7,}$/;
 
   const handleSubmit = ()=>{
     if (nameValidation.test(name) === false) {
       alert("Enter Valid Name")
+    }
+    else if (cityValidation.test(city) === false) {
+      alert("Enter Valid City Name")
     }
     else if (emailValidation.test(email) === false) {
       alert("Enter Valid Email Address")
@@ -52,19 +60,43 @@ export default function Signup() {
       alert("Password did not match")
     }
     else{
-      setName("")
-      setEmail("")
-      setMobile("")
-      setPassword("")
-      setConfirmPassword("")
       Keyboard.dismiss()
-      alert("Perpect")
+      createUser()
     }
   }
 
+  const createUser = () => {
+    auth().createUserWithEmailAndPassword(email, password)
+      .then((e) => {
+        let user = e.user.uid
+        database().ref('Blood_Bank_Users/' + user).set({
+          name,
+          city,
+          email,
+          mobile,
+          user,
+        })
+          .then(function () {
+            setName("")
+            setCity("")
+            setEmail("")
+            setMobile("")
+            setPassword("")
+            setConfirmPassword("")
+          })
+          .catch(function (error) {
+            console.log(error.message);
+          });
+
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+
   return (
     <Container style={{justifyContent:"center"}}>
-    <KeyboardAvoidingView behavior='height' keyboardVerticalOffset={-10}>
+    <KeyboardAvoidingView behavior='height' keyboardVerticalOffset={26}>
       <ScrollView>
       <Form>
         <Item stackedLabel>
@@ -78,6 +110,21 @@ export default function Signup() {
             blurOnSubmit={false}
             onChangeText={(e)=>{setName(e)}}
             value={name}
+            onSubmitEditing={() => cityInput.current.focus()}
+          />
+        </Item>
+        <Item stackedLabel>
+          <Label>City</Label>
+          <TextInput
+            keyboardType="default"
+            selectionColor='rgba(0, 0, 0, 0.5)'
+            style={styles.inputs}
+            underlineColorAndroid="transparent"
+            ref={cityInput}
+            returnKeyType="next"
+            blurOnSubmit={false}
+            onChangeText={(e)=>{setCity(e)}}
+            value={city}
             onSubmitEditing={() => emailInput.current.focus()}
           />
         </Item>
@@ -140,7 +187,6 @@ export default function Signup() {
           />
         </Item>
       </Form>
-      <Text></Text>
       <Text></Text>
       <Text></Text>
       <Text></Text>

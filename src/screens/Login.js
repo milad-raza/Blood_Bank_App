@@ -15,6 +15,7 @@ import {
   Label,
   Button,
 } from 'native-base';
+import auth from "@react-native-firebase/auth";
 
 export default function Signup() {
   const passwordInput = useRef();
@@ -33,11 +34,22 @@ export default function Signup() {
       alert("Enter Valid Password")
     }
     else{
+      Keyboard.dismiss()
+      loginUser()
+    }
+  }
+
+  const loginUser = () => {
+    auth().signInWithEmailAndPassword(email, password)
+    .then(function(e){
+      auth.user
       setEmail("")
       setPassword("")
-      Keyboard.dismiss()
-      alert("Perpect")
-    }
+      console.log(e)
+    })
+    .catch((error) => {
+      alert(error.message);
+    });
   }
 
   return (
