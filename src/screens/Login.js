@@ -6,6 +6,9 @@ import {
   StyleSheet,
   TextInput,
   Keyboard,
+  ActivityIndicator,
+  Platform,
+  ToastAndroid,
 } from 'react-native';
 import {
   Container,
@@ -17,23 +20,34 @@ import {
 } from 'native-base';
 import auth from "@react-native-firebase/auth";
 
-export default function Signup() {
+export default function Login(props) {
+
   const passwordInput = useRef();
-  const loginBtn = useRef();
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
+  const [loading,setLoading] = useState(false)
 
   const emailValidation = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
   const passwordValidation = /^[A-Za-z[0-9]\w{7,}$/;
 
   const handleSubmit = ()=>{
+    Keyboard.dismiss()
     if (emailValidation.test(email) === false) {
-      alert("Enter Valid Email")
+      if (Platform.OS === 'android') {
+        ToastAndroid.show("Please Enter Valid Email Address!", ToastAndroid.SHORT)
+      } else {
+        AlertIOS.alert("Please Enter Valid Email Address!");
+      }
     }
     else if (passwordValidation.test(password) === false){
-      alert("Enter Valid Password")
+      if (Platform.OS === 'android') {
+        ToastAndroid.show("Please Enter Valid Password!", ToastAndroid.SHORT)
+      } else {
+        AlertIOS.alert("Please Enter Valid Password!");
+      }
     }
     else{
+      setLoading(true)
       Keyboard.dismiss()
       loginUser()
     }
@@ -45,10 +59,17 @@ export default function Signup() {
       auth.user
       setEmail("")
       setPassword("")
-      console.log(e)
+      setLoading(false)
+      props.navigation.navigate("Home")
     })
     .catch((error) => {
-      alert(error.message);
+      setLoading(false)
+      if (Platform.OS === 'android') {
+        ToastAndroid.show("Wrong Email Or Password!", ToastAndroid.LONG)
+      }
+       else {
+        AlertIOS.alert("Wrong Email Or Password!");
+      }
     });
   }
 
@@ -66,6 +87,8 @@ export default function Signup() {
             keyboardType="email-address"
             returnKeyType="next"
             blurOnSubmit={false}
+            autoCapitalize='none'
+            autoCorrect={false}
             onChangeText={(e)=>{setEmail(e)}}
             onSubmitEditing={() => passwordInput.current.focus()}
           />
@@ -79,8 +102,10 @@ export default function Signup() {
             selectionColor='rgba(0, 0, 0, 0.5)'
             style={styles.inputs}
             ref={passwordInput}
+            autoCapitalize='none'
+            autoCorrect={false}
             onChangeText={(e)=>{setPassword(e)}}
-            onSubmitEditing={() => loginBtn.current.focus()}
+            onSubmitEditing = {loading ? null : ()=>{handleSubmit()}}
           />
         </Item>
         </Form>
@@ -91,10 +116,12 @@ export default function Signup() {
         <TouchableOpacity
           style={styles.loginCont}
           activeOpacity={0.5}
-          ref={loginBtn}
+          disabled = {loading ? true : false}
           onPress={()=>{handleSubmit()}}  
         >
-          <Text style={styles.login}>Login</Text>
+          <Text style={styles.login}>
+          {loading ? <ActivityIndicator size="large" color="#ffffff" /> : "Login"}
+          </Text>
         </TouchableOpacity>
       </View>
         </Container>

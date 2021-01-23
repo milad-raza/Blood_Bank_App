@@ -8,7 +8,10 @@ import {
   TextInput,
   Keyboard,
   KeyboardAvoidingView,
-  KeyboardAvoidingViewComponent
+  KeyboardAvoidingViewComponent,
+  ActivityIndicator,
+  ToastAndroid,
+  Platform,
 } from 'react-native';
 import {
   Container,
@@ -20,13 +23,12 @@ import {
 import auth from "@react-native-firebase/auth";
 import database from "@react-native-firebase/database";
 
-export default function Signup() {
+export default function Signup(props) {
   const cityInput = useRef();
   const emailInput = useRef();
   const mobileInput = useRef();
   const passwordInput = useRef();
   const confirmInput = useRef();
-  const createAccount = useRef();
 
   const [name,setName] = useState("")
   const [city,setCity] = useState("")
@@ -35,31 +37,59 @@ export default function Signup() {
   const [password,setPassword] = useState("")
   const [confirmPassword,setConfirmPassword] = useState("")
 
+  const [loading,setLoading] = useState(false)
+
   const nameValidation = /([A-Za-z])\w/;
   const cityValidation = /([A-Za-z])\w/;
   const emailValidation = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
   const passwordValidation = /^[A-Za-z[0-9]\w{7,}$/;
 
   const handleSubmit = ()=>{
+    Keyboard.dismiss()
     if (nameValidation.test(name) === false) {
-      alert("Enter Valid Name")
+      if (Platform.OS === 'android') {
+        ToastAndroid.show("Please Enter Valid Name!", ToastAndroid.SHORT)
+      } else {
+        AlertIOS.alert("Please Enter Valid Name!");
+      }
     }
     else if (cityValidation.test(city) === false) {
-      alert("Enter Valid City Name")
+      if (Platform.OS === 'android') {
+        ToastAndroid.show("Please Enter Valid City Name!", ToastAndroid.SHORT)
+      } else {
+        AlertIOS.alert("Please Enter Valid City Name!");
+      }
     }
     else if (emailValidation.test(email) === false) {
-      alert("Enter Valid Email Address")
+      if (Platform.OS === 'android') {
+        ToastAndroid.show("Please Enter Valid Email Address!", ToastAndroid.SHORT)
+      } else {
+        AlertIOS.alert("Please Enter Valid Email Address!");
+      }
     }
     else if(mobile.length < 11){
-      alert("Enter Valid Mobile Number")
+      if (Platform.OS === 'android') {
+        ToastAndroid.show("Please Enter Valid Mobile Number!", ToastAndroid.SHORT)
+      } else {
+        AlertIOS.alert("Please Enter Valid Mobile Number!");
+      }
     }
     else if (passwordValidation.test(password) === false){
-      alert("Invalid Password")
+      if (Platform.OS === 'android') {
+        ToastAndroid.show("Please Enter Valid Password!", ToastAndroid.SHORT)
+      } else {
+        AlertIOS.alert("Please Enter Valid Password!");
+      }
     }
     else if (confirmPassword !== password){
-      alert("Password did not match")
+      if (Platform.OS === 'android') {
+        ToastAndroid.show("Sorry Password Did Not Match!", ToastAndroid.SHORT)
+      } else {
+        AlertIOS.alert("Sorry Password Did Not Match!");
+      }
     }
     else{
+      setLoading(true)
       Keyboard.dismiss()
       createUser()
     }
@@ -83,21 +113,42 @@ export default function Signup() {
             setMobile("")
             setPassword("")
             setConfirmPassword("")
+            setLoading(true)
+            props.navigation.navigate("Home")
           })
           .catch(function (error) {
-            console.log(error.message);
+            setLoading(false)
+            if (Platform.OS === 'android') {
+              ToastAndroid.show(error.message, ToastAndroid.LONG)
+            } else {
+              AlertIOS.alert(error.message);
+            }
           });
 
       })
       .catch((error) => {
-        alert(error.message);
+        setLoading(false)
+        if(error.code === "auth/email-already-in-use"){
+        if (Platform.OS === 'android') {
+          ToastAndroid.show("Email Already Exists", ToastAndroid.LONG)
+        } else {
+          AlertIOS.alert(error.message);
+        }
+      }
+      else{
+        if (Platform.OS === 'android') {
+          ToastAndroid.show(error.message, ToastAndroid.LONG)
+        } else {
+          AlertIOS.alert(error.message);
+        }
+      }
       });
   };
 
   return (
     <Container style={{justifyContent:"center"}}>
-    <KeyboardAvoidingView behavior='height' keyboardVerticalOffset={26}>
-      <ScrollView>
+    <KeyboardAvoidingView behavior='height' keyboardVerticalOffset={70}>
+      <ScrollView keyboardShouldPersistTaps='handled'>
       <Form>
         <Item stackedLabel>
           <Label>Name</Label>
@@ -108,6 +159,7 @@ export default function Signup() {
             underlineColorAndroid="transparent"
             returnKeyType="next"
             blurOnSubmit={false}
+            autoCorrect={false}
             onChangeText={(e)=>{setName(e)}}
             value={name}
             onSubmitEditing={() => cityInput.current.focus()}
@@ -123,6 +175,7 @@ export default function Signup() {
             ref={cityInput}
             returnKeyType="next"
             blurOnSubmit={false}
+            autoCorrect={false}
             onChangeText={(e)=>{setCity(e)}}
             value={city}
             onSubmitEditing={() => emailInput.current.focus()}
@@ -138,6 +191,8 @@ export default function Signup() {
             ref={emailInput}
             returnKeyType="next"
             blurOnSubmit={false}
+            autoCapitalize='none'
+            autoCorrect={false}
             onChangeText={(e)=>{setEmail(e)}}
             value={email}
             onSubmitEditing={() => mobileInput.current.focus()}
@@ -168,6 +223,8 @@ export default function Signup() {
             ref={passwordInput}
             returnKeyType="next"
             blurOnSubmit={false}
+            autoCapitalize='none'
+            autoCorrect={false}
             onChangeText={(e)=>{setPassword(e)}}
             value={password}
             onSubmitEditing={() => confirmInput.current.focus()}
@@ -181,13 +238,14 @@ export default function Signup() {
             underlineColorAndroid="transparent"
             ref={confirmInput}
             style={styles.inputs}
+            autoCapitalize='none'
+            autoCorrect={false}
             onChangeText={(e)=>{setConfirmPassword(e)}}
             value={confirmPassword}
-            onSubmitEditing={() => createAccount.current.focus()}
+            onSubmitEditing = {loading ? null : ()=>{handleSubmit()}}
           />
         </Item>
       </Form>
-      <Text></Text>
       <Text></Text>
       <Text></Text>
       <Text></Text>
@@ -196,10 +254,12 @@ export default function Signup() {
         <TouchableOpacity
           style={styles.createAccountCont}
           activeOpacity={0.5}
-          ref={createAccount}
+          disabled = {loading ? true : false}
           onPress={()=>{handleSubmit()}}
         >
-          <Text style={styles.createAccount}>Create Account</Text>
+          <Text style={styles.createAccount}>
+            {loading ? <ActivityIndicator size="large" color="#ffffff" /> : "Create Account"}
+            </Text>
         </TouchableOpacity>
       </View>
       <Text></Text>

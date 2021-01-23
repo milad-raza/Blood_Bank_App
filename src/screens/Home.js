@@ -7,12 +7,28 @@ import {
   TouchableOpacity,
 } from 'react-native';
 const blood_bank = require('../assets/images/blood-bank.png');
+import auth from "@react-native-firebase/auth";
+import Dashboard from "./Dashboard";
 
 function Home(props) {
-  const {login, setLogin} = useState(false);
+
+  const [login, setLogin] = useState(false);
+  const [user, setUser] = useState(null);
+
+  auth().onAuthStateChanged(function (user) {
+    if (user) {
+      var uid = user.uid;
+      setUser(uid);
+      setLogin(true)
+    }
+    else{
+      setLogin(false)
+    }
+  });
+
 
   if (login) {
-    return <Text>Dashboard</Text>;
+    return <Dashboard />;
   }
 
   return (
@@ -50,7 +66,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   buttons: {
-    marginTop: '120%',
+    marginTop: '110%',
     justifyContent: 'center',
     alignItems: 'center',
   },
