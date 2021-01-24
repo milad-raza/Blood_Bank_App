@@ -28,7 +28,7 @@ function Home(props) {
 
 
   if (login) {
-    return <Dashboard />;
+    return <Dashboard data={props.navigation} />;
   }
 
   return (

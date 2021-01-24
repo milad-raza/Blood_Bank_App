@@ -60,7 +60,7 @@ export default function Login(props) {
       setEmail("")
       setPassword("")
       setLoading(false)
-      props.navigation.navigate("Home")
+      props.navigation.navigate("Dashboard")
     })
     .catch((error) => {
       setLoading(false)

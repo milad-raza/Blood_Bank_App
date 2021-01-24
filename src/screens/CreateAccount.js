@@ -114,7 +114,7 @@ export default function Signup(props) {
             setPassword("")
             setConfirmPassword("")
             setLoading(true)
-            props.navigation.navigate("Home")
+            props.navigation.navigate("Dashboard")
           })
           .catch(function (error) {
             setLoading(false)
