@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,25 +7,27 @@ import {
   TouchableOpacity,
 } from 'react-native';
 const blood_bank = require('../assets/images/blood-bank.png');
-import auth from "@react-native-firebase/auth";
-import Dashboard from "./Dashboard";
+import auth from '@react-native-firebase/auth';
+import Dashboard from './Dashboard';
 
 function Home(props) {
-
   const [login, setLogin] = useState(false);
   const [user, setUser] = useState(null);
 
-  auth().onAuthStateChanged(function (user) {
-    if (user) {
-      var uid = user.uid;
-      setUser(uid);
-      setLogin(true)
-    }
-    else{
-      setLogin(false)
-    }
-  });
+  useEffect(()=>{
+    return(
+    auth().onAuthStateChanged(function (user) {
+      if (user) {
+        var uid = user.uid;
+        setUser(uid);
+        setLogin(true);
+      } else {
+        setLogin(false);
+      }
+    }));
+  },[auth])
 
+  
 
   if (login) {
     return <Dashboard data={props.navigation} />;
