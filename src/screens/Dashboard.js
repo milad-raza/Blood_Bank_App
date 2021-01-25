@@ -1,116 +1,125 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StatusBar,StyleSheet} from 'react-native';
-import { Container, Content, Card, CardItem, Body } from "native-base";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StatusBar,
+  StyleSheet,
+} from 'react-native';
+import {Container, Content, Card, CardItem, Body} from 'native-base';
 import auth from '@react-native-firebase/auth';
-import Fontisto from "react-native-vector-icons/Fontisto"
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+{/*
+<MaterialCommunityIcons name="water" size = {45} color={"#E6233F"} />
+<MaterialCommunityIcons name="account-search" size = {45} color={"#E6233F"} />
+<MaterialCommunityIcons name="blood-bag" size = {40} color={"#E6233F"} />
+<MaterialCommunityIcons name="account" size = {45} color={"#E6233F"} /> */}
 
 export default function Dashboard(props) {
+  const [Donate,setDonate] = useState(false)
+  const [Find,setFind] = useState(false)
+  const [All,setAll] = useState(false)
+  const [Profile,setProfile] = useState(false)
 
-  const Donate = () => {
-    props.data.navigate("Donate")
+
+  const go = (name,press) => {
+    press(true)
+    setTimeout(()=>{
+      props.data.navigate(name) 
+      press(false)
+    },100)
   }
-  const FindDonor = () => {
-    props.data.navigate("Find A Donor")
-  }
-  const AllDonors = () => {
-    props.data.navigate("All Donors")
-  }
-  const Profile = () => {
-    props.data.navigate("Profile")
-  }
+
+  const allData = [
+    {
+      name: 'Donate',
+      touch: Donate,
+      setTouch : setDonate,
+      icon: "water",
+    },
+    {
+      name: 'Find A Donor',
+      touch: Find,
+      setTouch : setFind,
+      icon: "account-search",
+    },
+    {
+      name: 'All Donors',
+      touch: All,
+      setTouch : setAll,
+      icon: "blood-bag",
+    },
+    {
+      name: 'Profile',
+      touch : Profile,
+      setTouch : setProfile,
+      icon: "account",
+    },
+  ];
 
   return (
     <>
-    {/* <View style={styles.top}>
-      <Text style={styles.avail}>Available Donors</Text>
-      <Text></Text>
-      <Text style={styles.avail}>0</Text>
-    </View> */}
-    <View style={styles.dashboard}>
-      <View style={styles.pair}>
-      <TouchableOpacity style={styles.card} activeOpacity={0.7} onPress={()=>{Donate()}}>
-      <Fontisto name="blood-drop" size = {40} color={"#E6233F"} />
-      <Text></Text>
-        <Text style={styles.cardText}>
-         DONATE
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.card} activeOpacity={0.7} onPress={()=>{FindDonor()}}>
-      <MaterialCommunityIcons name="account-search" size = {45} color={"#E6233F"} />
-      <Text></Text>
-        <Text style={styles.cardText}>
-        FIND A DONOR
-        </Text>
-      </TouchableOpacity>
+      <View style={styles.allcards}>
+        {allData.map((data, index) => {
+          return (
+            <TouchableOpacity
+              onPress = {()=>go(data.name,data.setTouch)}
+              key={index}
+              activeOpacity={0.6}
+              style={data.touch ? styles.cardTouch : styles.card}>
+                <MaterialCommunityIcons name={data.icon} size = {30} color={data.touch ? "#ffffff" : "#E6233F"} />
+              <Text name = "name" style={data.touch ? styles.cardTextTouch : styles.cardText}>
+                {data.name}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
-      <View style={styles.pair}>
-      <TouchableOpacity style={styles.card} activeOpacity={0.7} onPress={()=>{AllDonors()}}>
-      <MaterialCommunityIcons name="blood-bag" size = {40} color={"#E6233F"} />
-      <Text></Text>
-        <Text style={styles.cardText}>
-        ALL DONORS
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.card} activeOpacity={0.7} onPress={()=>{Profile()}}>
-      <MaterialCommunityIcons name="account" size = {45} color={"#E6233F"} />
-      <Text></Text>
-        <Text style={styles.cardText}>
-        PROFILE
-        </Text>
-      </TouchableOpacity>
-      </View>
-    </View>
-    
-      </>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  // top:{
-  //   width: "100%",
-  //   height: "36%",
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  //   backgroundColor: "#e8eae6",
-  //   borderBottomWidth: 1,
-  //   borderBottomColor: "rgba(0,0,0,0.1)",
-  // },
-  // avail:{
-  //   fontSize: 40,
-  //   fontWeight: "bold",
-  //   fontFamily: "georgia",
-  //   color: "#214151",
-  // },
-
-  dashboard:{
-    width: "100%",
-    height: "100%",
-    // justifyContent: "space-around",
-    justifyContent: "center",
-    alignItems: "center",
-    // flexWrap: "wrap",
-    // flexDirection:"row",
-    paddingTop: 30,  
-    backgroundColor: "#f5f4f4"
+  allcards: {
+    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#dddddd'
   },
-  pair:{
-    flexDirection: "row",
+  card: {
+    width: '75%',
+    height: 75,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#214151',
+    borderWidth: 4,
+    borderRadius: 50,
+    margin: 20,
+    backgroundColor: "#efefef"
   },
-  card:{
-    width: 144,
-    height: 140,
-    borderWidth: 2,
-    borderRadius: 6,
-    borderColor: "#E6233F",
-    justifyContent: "center",
-    alignItems: "center",
+  cardText: {
+    fontSize: 24,
+    color: '#E6233F',
+    fontWeight: "bold",
+    fontFamily: "georgia",
+  },
+  cardTouch: {
+    width: '75%',
+    height: 75,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#E6233F',
+    borderWidth: 4,
+    borderRadius: 50,
+    backgroundColor: '#214151',
     margin: 20,
   },
-  cardText:{
-    fontSize: 16,
-    fontFamily: "georgia",
+  cardTextTouch: {
+    fontSize: 24,
+    color: 'white',
     fontWeight: "bold",
-    color: "#214151",
+    fontFamily: "georgia",
   },
-})
+});
