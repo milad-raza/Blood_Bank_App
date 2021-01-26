@@ -9,27 +9,25 @@ import {
 const blood_bank = require('../assets/images/blood-bank.png');
 import auth from '@react-native-firebase/auth';
 import Dashboard from './Dashboard';
+import { connect } from 'react-redux';
+import changeLogin from '../store/Actions/LoginAction';
 
 function Home(props) {
-  const [login, setLogin] = useState(false);
-  const [user, setUser] = useState(null);
 
-  useEffect(()=>{
+    useEffect(()=>{
     return(
     auth().onAuthStateChanged(function (user) {
       if (user) {
-        var uid = user.uid;
-        setUser(uid);
-        setLogin(true);
-      } else {
-        setLogin(false);
+        props.ChangeLogin(true)
+      } 
+      else {
+        props.ChangeLogin(false)
       }
     }));
   },[auth])
-
   
 
-  if (login) {
+  if ((props.login)) {
     return <Dashboard data={props.navigation} />;
   }
 
@@ -105,4 +103,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+const mapStateToProps = (state) => ({
+  login: state.Login.login,
+  // user: state.User.user
+})
+
+const mapDispatchToProp = (dispatch) => ({
+  ChangeLogin: (login) => dispatch(changeLogin(login)),
+  // AddUser: (user) => dispatch(addUser(user))
+})
+
+export default connect(mapStateToProps,mapDispatchToProp)(Home);

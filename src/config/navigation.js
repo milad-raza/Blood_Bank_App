@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -11,19 +11,13 @@ import Donate from '../screens/Donate';
 import AllDonors from '../screens/AllDonors';
 import Profile from '../screens/Profile';
 import FindDonor from '../screens/FindDonor';
+import DonateLocation from '../screens/DonateLocation';
+import {connect} from 'react-redux';
 
 const Stack = createStackNavigator();
 
-function AppNavigation() {
-  const [login, setLogin] = useState(false);
-  auth().onAuthStateChanged(function (user) {
-    if (user) {
-      setLogin(true);
-    } else {
-      setLogin(false);
-    }
-  });
-
+function AppNavigation(props) {
+  
   const logout = () => {
     auth().signOut().then(null).catch(null);
   };
@@ -35,7 +29,7 @@ function AppNavigation() {
           name="Dashboard"
           component={Home}
           options={
-            login
+            props.login
               ? {
                   headerTintColor: '#ffffff',
                   headerRight: () => (
@@ -80,7 +74,7 @@ function AppNavigation() {
           name="Donate"
           component={Donate}
           options={
-            login
+            props.login
               ? {
                   headerTintColor: '#ffffff',
                   headerRight: () => (
@@ -105,7 +99,7 @@ function AppNavigation() {
           name="Find A Donor"
           component={FindDonor}
           options={
-            login
+            props.login
               ? {
                   headerTintColor: '#ffffff',
                   headerRight: () => (
@@ -130,7 +124,28 @@ function AppNavigation() {
           name="All Donors"
           component={AllDonors}
           options={
-            login
+            props.login
+              ? {
+                  headerTintColor: '#ffffff',
+                  headerRight: () => (
+                    <Icon
+                      name="logout"
+                      size={30}
+                      style={{marginRight: 10}}
+                      color="#fff"
+                      onPress={() => {
+                        logout();
+                      }}
+                    />
+                  ),
+                  headerStyle: {
+                    backgroundColor: '#E6233F',
+                  },
+                }
+              : {headerShown: false}
+          }
+          options={
+            props.login
               ? {
                   headerTintColor: '#ffffff',
                   headerRight: () => (
@@ -155,7 +170,32 @@ function AppNavigation() {
           name="Profile"
           component={Profile}
           options={
-            login
+            props.login
+              ? {
+                  headerTintColor: '#ffffff',
+                  headerRight: () => (
+                    <Icon
+                      name="logout"
+                      size={30}
+                      style={{marginRight: 10}}
+                      color="#fff"
+                      onPress={() => {
+                        logout();
+                      }}
+                    />
+                  ),
+                  headerStyle: {
+                    backgroundColor: '#E6233F',
+                  },
+                }
+              : {headerShown: false}
+          }
+        />
+        <Stack.Screen
+          name="Select Location"
+          component={DonateLocation}
+          options={
+            props.login
               ? {
                   headerTintColor: '#ffffff',
                   headerRight: () => (
@@ -181,4 +221,8 @@ function AppNavigation() {
   );
 }
 
-export default AppNavigation;
+const mapStateToProps = (state) => ({
+  login: state.Login.login,
+});
+
+export default connect(mapStateToProps)(AppNavigation);

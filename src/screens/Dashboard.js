@@ -7,15 +7,9 @@ import {
   StyleSheet,
 } from 'react-native';
 import {Container, Content, Card, CardItem, Body} from 'native-base';
-import auth from '@react-native-firebase/auth';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-{/*
-<MaterialCommunityIcons name="water" size = {45} color={"#E6233F"} />
-<MaterialCommunityIcons name="account-search" size = {45} color={"#E6233F"} />
-<MaterialCommunityIcons name="blood-bag" size = {40} color={"#E6233F"} />
-<MaterialCommunityIcons name="account" size = {45} color={"#E6233F"} /> */}
 
 export default function Dashboard(props) {
   const [Donate,setDonate] = useState(false)

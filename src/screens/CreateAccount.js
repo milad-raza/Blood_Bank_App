@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   ToastAndroid,
   Platform,
+  Alert
 } from 'react-native';
 import {
   Container,
@@ -50,42 +51,42 @@ export default function Signup(props) {
       if (Platform.OS === 'android') {
         ToastAndroid.show("Please Enter Valid Name!", ToastAndroid.SHORT)
       } else {
-        AlertIOS.alert("Please Enter Valid Name!");
+        Alert.alert("Error","Please Enter Valid Name!");
       }
     }
     else if (cityValidation.test(city) === false) {
       if (Platform.OS === 'android') {
         ToastAndroid.show("Please Enter Valid City Name!", ToastAndroid.SHORT)
       } else {
-        AlertIOS.alert("Please Enter Valid City Name!");
+        Alert.alert("Error","Please Enter Valid City Name!");
       }
     }
     else if (emailValidation.test(email) === false) {
       if (Platform.OS === 'android') {
         ToastAndroid.show("Please Enter Valid Email Address!", ToastAndroid.SHORT)
       } else {
-        AlertIOS.alert("Please Enter Valid Email Address!");
+        Alert.alert("Error","Please Enter Valid Email Address!");
       }
     }
     else if(mobile.length < 11){
       if (Platform.OS === 'android') {
         ToastAndroid.show("Please Enter Valid Mobile Number!", ToastAndroid.SHORT)
       } else {
-        AlertIOS.alert("Please Enter Valid Mobile Number!");
+        Alert.alert("Error","Please Enter Valid Mobile Number!");
       }
     }
     else if (passwordValidation.test(password) === false){
       if (Platform.OS === 'android') {
         ToastAndroid.show("Please Enter Valid Password!", ToastAndroid.SHORT)
       } else {
-        AlertIOS.alert("Please Enter Valid Password!");
+        Alert.alert("Error","Please Enter Valid Password!");
       }
     }
     else if (confirmPassword !== password){
       if (Platform.OS === 'android') {
         ToastAndroid.show("Sorry Password Did Not Match!", ToastAndroid.SHORT)
       } else {
-        AlertIOS.alert("Sorry Password Did Not Match!");
+        Alert.alert("Error","Sorry Password Did Not Match!");
       }
     }
     else{
@@ -113,7 +114,7 @@ export default function Signup(props) {
             setMobile("")
             setPassword("")
             setConfirmPassword("")
-            setLoading(true)
+            setLoading(false)
             props.navigation.navigate("Dashboard")
           })
           .catch(function (error) {
@@ -121,7 +122,7 @@ export default function Signup(props) {
             if (Platform.OS === 'android') {
               ToastAndroid.show(error.message, ToastAndroid.LONG)
             } else {
-              AlertIOS.alert(error.message);
+              Alert.alert("Error",error.message);
             }
           });
 
@@ -132,14 +133,14 @@ export default function Signup(props) {
         if (Platform.OS === 'android') {
           ToastAndroid.show("Email Already Exists", ToastAndroid.LONG)
         } else {
-          AlertIOS.alert(error.message);
+          Alert.alert("Error",error.message);
         }
       }
       else{
         if (Platform.OS === 'android') {
           ToastAndroid.show(error.message, ToastAndroid.LONG)
         } else {
-          AlertIOS.alert(error.message);
+          Alert.alert("Error",error.message);
         }
       }
       });
