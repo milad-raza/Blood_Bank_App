@@ -57,7 +57,7 @@ function Details(props) {
   return (
 
     <Container style={{justifyContent:"center"}}>
-    <KeyboardAvoidingView behavior='height' keyboardVerticalOffset={70}>
+    <KeyboardAvoidingView behavior='height' keyboardVerticalOffset={-170}>
       <ScrollView keyboardShouldPersistTaps='handled'>
       <Form>
         <View style={styles.AllCards}> 
@@ -147,8 +147,7 @@ const styles = StyleSheet.create({
   },
   select: {
     color: '#E6233F',
-    fontSize: 26,
-    fontWeight: 'bold',
+    fontSize: 25,
     fontFamily: 'sans',
     color: '#214151',
     fontWeight: 'bold',
@@ -164,19 +163,19 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   card: {
-    width: 134,
+    width: 128,
     height: 50,
     borderWidth: 3,
     borderRadius: 5,
     borderColor: '#E6233F',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 26,
+    margin: 20,
     marginTop: 10,
     marginBottom: 10,
   },
   touch: {
-    width: 134,
+    width: 128,
     height: 50,
     borderWidth: 3,
     borderRadius: 5,
@@ -184,7 +183,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: "#E6233F",
-    margin: 26,
+    margin: 20,
     marginTop: 10,
     marginBottom: 10,
   },

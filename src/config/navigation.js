@@ -12,6 +12,7 @@ import AllDonors from '../screens/AllDonors';
 import Profile from '../screens/Profile';
 import FindDonor from '../screens/FindDonor';
 import Details from '../screens/Details';
+import DonorProfile from '../screens/DonorProfile';
 import Preview from '../screens/Preview';
 import {connect} from 'react-redux';
 
@@ -220,6 +221,31 @@ function AppNavigation(props) {
         <Stack.Screen
           name="Preview"
           component={Preview}
+          options={
+            props.login
+              ? {
+                  headerTintColor: '#ffffff',
+                  headerRight: () => (
+                    <Icon
+                      name="logout"
+                      size={30}
+                      style={{marginRight: 10}}
+                      color="#fff"
+                      onPress={() => {
+                        logout();
+                      }}
+                    />
+                  ),
+                  headerStyle: {
+                    backgroundColor: '#E6233F',
+                  },
+                }
+              : {headerShown: false}
+          }
+        />
+        <Stack.Screen
+          name="Donor Profile"
+          component={DonorProfile}
           options={
             props.login
               ? {

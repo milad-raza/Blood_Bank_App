@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,9 +9,12 @@ import {
 import {Container, Content, Card, CardItem, Body} from 'native-base';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import database from '@react-native-firebase/database';
+import { connect } from 'react-redux';
+import changeAllDonors from '../store/Actions/AllDonorsAction';
 
 
-export default function Dashboard(props) {
+function Dashboard(props) {
   const [Donate,setDonate] = useState(false)
   const [Find,setFind] = useState(false)
   const [All,setAll] = useState(false)
@@ -53,6 +56,24 @@ export default function Dashboard(props) {
     },
   ];
 
+const [donors,setDonors] = useState([])
+useEffect(()=>{
+    database()
+        .ref('Blood_Bank_Donors')
+        .on("value", function (snapshot) {
+          setDonors([])
+          snapshot.forEach(function (childSnapshot) {
+            let data = childSnapshot.val();
+            setDonors((donors) => [...donors, data]);
+          });
+        }
+        )
+  }, [])
+
+  useEffect(()=>{ 
+    props.ChangeAllDonors(donors)
+  },[donors])
+
   return (
     <>
       <View style={styles.allcards}>
@@ -91,7 +112,8 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderRadius: 50,
     margin: 20,
-    backgroundColor: "#efefef"
+    backgroundColor: "#efefef",
+    paddingBottom: 2,
   },
   cardText: {
     fontSize: 24,
@@ -109,6 +131,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: '#214151',
     margin: 20,
+    paddingBottom: 2,
   },
   cardTextTouch: {
     fontSize: 24,
@@ -117,3 +140,20 @@ const styles = StyleSheet.create({
     fontFamily: "georgia",
   },
 });
+
+const mapStateToProps = (state) => ({
+  login: state.Login.login,
+  user: state.User.user,
+  blood: state.BloodDonate.bloodDonate,
+  gender: state.Gender.gender,
+  age: state.Age.age,
+  area: state.Area.area,
+  donors: state.AllDonors.allDonors,
+})
+
+const mapDispatchToProp = (dispatch) => ({
+  ChangeAllDonors: (allDonors) => dispatch(changeAllDonors(allDonors))
+})
+
+export default connect(mapStateToProps,mapDispatchToProp)(Dashboard);
+

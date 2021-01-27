@@ -8,10 +8,12 @@ import {
 } from 'react-native';
 const blood_bank = require('../assets/images/blood-bank.png');
 import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
 import Dashboard from './Dashboard';
 import { connect } from 'react-redux';
 import changeLogin from '../store/Actions/LoginAction';
 import changeUser from '../store/Actions/UserAction';
+import changeFirebase from '../store/Actions/FirebaseAction';
 
 function Home(props) {
 
@@ -22,10 +24,18 @@ function Home(props) {
         props.ChangeLogin(true)
         props.ChangeUser(user.uid)
 
+        database()
+        .ref(`Blood_Bank_Users/${user.uid}`)
+        .once('value')
+        .then(data => {
+          props.ChangeFirebase(data.val())
+        });
+
       } 
       else {
         props.ChangeLogin(false)
         props.ChangeUser(null)
+        props.ChangeFirebase([])
       }
     }));
   },[auth])
@@ -124,7 +134,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProp = (dispatch) => ({
   ChangeLogin: (login) => dispatch(changeLogin(login)),
-  ChangeUser: (user) => dispatch(changeUser(user))
+  ChangeUser: (user) => dispatch(changeUser(user)),
+  ChangeFirebase: (firebase) => dispatch(changeFirebase(firebase))
 })
 
 export default connect(mapStateToProps,mapDispatchToProp)(Home);
