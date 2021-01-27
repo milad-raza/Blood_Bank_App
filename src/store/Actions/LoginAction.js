@@ -1,4 +1,4 @@
-  import { changelogin } from './ActionTypes';
+import { changelogin } from './ActionTypes';
 
 const changeLogin = (login) => {
     return (dispatch)=>{

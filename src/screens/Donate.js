@@ -48,7 +48,7 @@ function Donate(props) {
     }
     else{
       props.BloodDonate(bloodGroup)
-      props.navigation.navigate('Select Location');
+      props.navigation.navigate('Details');
     }    
   }
 
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderWidth: 3,
     borderRadius: 5,
-    borderColor: '#E6233F',
+    borderColor: '#214151',
     backgroundColor: '#E6233F',
     justifyContent: 'center',
     alignItems: 'center',

@@ -11,6 +11,7 @@ import auth from '@react-native-firebase/auth';
 import Dashboard from './Dashboard';
 import { connect } from 'react-redux';
 import changeLogin from '../store/Actions/LoginAction';
+import changeUser from '../store/Actions/UserAction';
 
 function Home(props) {
 
@@ -19,13 +20,22 @@ function Home(props) {
     auth().onAuthStateChanged(function (user) {
       if (user) {
         props.ChangeLogin(true)
+        props.ChangeUser(user.uid)
+
       } 
       else {
         props.ChangeLogin(false)
+        props.ChangeUser(null)
       }
     }));
   },[auth])
   
+      // console.log(props.login)
+      // console.log(props.user)
+      // console.log(props.blood)
+      // console.log(props.gender)
+      // console.log(props.age)
+      // console.log(props.area)
 
   if ((props.login)) {
     return <Dashboard data={props.navigation} />;
@@ -105,12 +115,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   login: state.Login.login,
-  // user: state.User.user
+  user: state.User.user,
+  blood: state.BloodDonate.bloodDonate,
+  gender: state.Gender.gender,
+  age: state.Age.age,
+  area: state.Area.area,
 })
 
 const mapDispatchToProp = (dispatch) => ({
   ChangeLogin: (login) => dispatch(changeLogin(login)),
-  // AddUser: (user) => dispatch(addUser(user))
+  ChangeUser: (user) => dispatch(changeUser(user))
 })
 
 export default connect(mapStateToProps,mapDispatchToProp)(Home);

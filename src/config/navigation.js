@@ -11,7 +11,8 @@ import Donate from '../screens/Donate';
 import AllDonors from '../screens/AllDonors';
 import Profile from '../screens/Profile';
 import FindDonor from '../screens/FindDonor';
-import DonateLocation from '../screens/DonateLocation';
+import Details from '../screens/Details';
+import Preview from '../screens/Preview';
 import {connect} from 'react-redux';
 
 const Stack = createStackNavigator();
@@ -192,8 +193,33 @@ function AppNavigation(props) {
           }
         />
         <Stack.Screen
-          name="Select Location"
-          component={DonateLocation}
+          name="Details"
+          component={Details}
+          options={
+            props.login
+              ? {
+                  headerTintColor: '#ffffff',
+                  headerRight: () => (
+                    <Icon
+                      name="logout"
+                      size={30}
+                      style={{marginRight: 10}}
+                      color="#fff"
+                      onPress={() => {
+                        logout();
+                      }}
+                    />
+                  ),
+                  headerStyle: {
+                    backgroundColor: '#E6233F',
+                  },
+                }
+              : {headerShown: false}
+          }
+        />
+        <Stack.Screen
+          name="Preview"
+          component={Preview}
           options={
             props.login
               ? {
