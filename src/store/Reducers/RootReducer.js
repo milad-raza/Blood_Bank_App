@@ -6,7 +6,8 @@ import GenderReducer from "./GenderReducer";
 import AgeReducer from "./AgeReducer";
 import AreaReducer from "./AreaReducer";
 import FirebaseReducer from './FirebaseReducer';
-import AllDonorsReducer from './AllDonorsReducer'
+import AllDonorsReducer from './AllDonorsReducer';
+import DonorProfileReducer from './DonorProfileReducer';
 
 const Reducers = combineReducers({
     Login: LoginReducer,
@@ -17,6 +18,8 @@ const Reducers = combineReducers({
     Area: AreaReducer,
     Firebase: FirebaseReducer,
     AllDonors: AllDonorsReducer,
+    DonorProfile: DonorProfileReducer,
+    
 })
 
 export default Reducers;

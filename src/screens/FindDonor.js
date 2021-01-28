@@ -2,23 +2,11 @@ import React, {useState,useEffect} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import Home from './Home';
+import {connect} from 'react-redux';
 
-export default function FindDonor(props) {
-  const [notLogin, setNotLogin] = useState(false); 
+function FindDonor(props) {
 
-  useEffect(() => {
-      return(
-    auth().onAuthStateChanged(function (user) {
-        if (user) {
-          setNotLogin(false);
-
-        } else {
-          setNotLogin(true);
-        }
-      }))
-  }, [auth])
-
-  if (notLogin) {
+  if ((props.login === false)) {
     return <Home navigation={props.navigation} />;
   }
 
@@ -28,3 +16,13 @@ export default function FindDonor(props) {
     </View>
   );
 }
+
+const mapStateToProps = (state) => ({
+  login: state.Login.login,
+})
+
+// const mapDispatchToProp = (dispatch) => ({
+//   BloodDonate: (bloodDonate) => dispatch(changeBloodDonate(bloodDonate)),
+// })
+
+export default connect(mapStateToProps)(FindDonor);

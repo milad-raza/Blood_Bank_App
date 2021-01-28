@@ -1,22 +1,24 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet,Linking} from 'react-native';
 import {List,ListItem} from 'native-base';
 import {connect} from 'react-redux';
 import Home from '../screens/Home';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function DonorProfile(props) {
   if (props.login === false) {
     return <Home navigation={props.navigation} />;
   }
 
-  const name = props.route.params.name;
-  const age = props.route.params.age;
-  const area = props.route.params.area;
-  const city = props.route.params.city;
-  const email = props.route.params.email;
-  const mobile = props.route.params.mobile;
-  const gender = props.route.params.gender;
-  const blood = props.route.params.blood;
+  const name = props.donorProfile.name;
+  const age = props.donorProfile.age;
+  const area = props.donorProfile.area;
+  const city = props.donorProfile.city;
+  const email = props.donorProfile.email;
+  const mobile = props.donorProfile.mobile;
+  const gender = props.donorProfile.gender;
+  const blood = props.donorProfile.blood;
 
   return (
     <View style={styles.cont}>
@@ -52,13 +54,28 @@ function DonorProfile(props) {
       </Text>
       </ListItem>
       <ListItem>
-      <Text style={styles.name}>
+      <Text style={styles.name} onPress={()=>{Linking.openURL(`tel:${mobile}`);}}>
         Mobile : <Text>{mobile}</Text>
       </Text>
       </ListItem>
       <ListItem>
-      <Text style={styles.name}>
+      <Text style={styles.name} onPress={()=>{Linking.openURL(`mailto:${email}`);}}>
         Email : <Text>{email}</Text>
+      </Text>
+      </ListItem>
+      <ListItem>
+      <Text >
+        <TouchableOpacity onPress={()=>{Linking.openURL(`tel:${mobile}`);}} activeOpacity={0.6}>
+        <Icon name="phone" size={34} color="#214151" />
+        </TouchableOpacity>
+        <Text>       </Text>
+        <TouchableOpacity onPress={()=>{Linking.openURL(`sms:${mobile}`);}} activeOpacity={0.6}>
+        <Icon name="message-text" size={34} color="#214151" />
+        </TouchableOpacity>
+        <Text>       </Text>
+        <TouchableOpacity onPress={()=>{Linking.openURL(`mailto:${email}`);}} activeOpacity={0.6}>
+        <Icon name="email" size={34} color="#214151" />
+        </TouchableOpacity>
       </Text>
       </ListItem>
       </List>
@@ -82,6 +99,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   login: state.Login.login,
+  donorProfile: state.DonorProfile.donorProfile
 });
 
 export default connect(mapStateToProps)(DonorProfile);

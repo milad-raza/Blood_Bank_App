@@ -48,7 +48,7 @@ function Home(props) {
       // console.log(props.area)
 
   if ((props.login)) {
-    return <Dashboard data={props.navigation} />;
+    return (<Dashboard data={props.navigation} />);
   }
 
   return (

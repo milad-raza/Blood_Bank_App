@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {
   Container,
@@ -22,6 +23,7 @@ import auth from '@react-native-firebase/auth';
 import Home from './Home';
 import {connect} from 'react-redux';
 import database from '@react-native-firebase/database';
+import changeDonorProfile from '../store/Actions/DonorProfileAction'
 
 const boy = require('../assets/images/boy.png');
 const girl = require('../assets/images/girl.png');
@@ -32,10 +34,17 @@ function AllDonors(props) {
   }
 
   const view = (name,age,city,area,blood,mobile,email,gender) => {
-    props.navigation.navigate("Donor Profile", {name,age,city,area,blood,mobile,email,gender})
+
+    props.DonorProfile({name,age,city,area,blood,mobile,email,gender})
+
+    props.navigation.navigate("Donor Profile")
   }
 
-  const donors = props.donors;
+  const donors = props.donors
+
+  if((donors.length < 1)){
+    return(<ActivityIndicator size="large" color="#214151" style={{flex: 1,}} />)
+  }
 
   return (
     <Container>
@@ -59,7 +68,7 @@ function AllDonors(props) {
                     </Text>
                   </Body>
                   <Right>
-                    <TouchableOpacity style={styles.view} activeOpacity={0.3} onPress={()=>{view(
+                    <TouchableOpacity style={styles.view} activeOpacity={0.4} onPress={()=>{view(
                       donor.name,
                       donor.age,
                       donor.city,
@@ -99,7 +108,7 @@ const styles = StyleSheet.create({
   view: {
     borderColor: 'red',
     borderWidth: 1.6,
-    padding: 10,
+    padding: 8,
     paddingLeft: 20,
     paddingRight: 20,
     borderRadius: 100,
@@ -111,4 +120,9 @@ const mapStateToProps = (state) => ({
   donors: state.AllDonors.allDonors,
 });
 
-export default connect(mapStateToProps)(AllDonors);
+const mapDispatchToProp = (dispatch) => ({
+  DonorProfile: (donorProfile) => dispatch(changeDonorProfile(donorProfile)),
+})
+
+
+export default connect(mapStateToProps,mapDispatchToProp)(AllDonors);

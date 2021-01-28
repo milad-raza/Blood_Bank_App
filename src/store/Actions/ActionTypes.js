@@ -6,3 +6,4 @@ export const changeage = "CHANGEAGE";
 export const changearea = "CHANGEAREA";
 export const changefirebase = "CHANGEFIREBASE";
 export const changealldonors = "CHANGEALLDONORS";
+export const changedonorprofile = "CHANGEDONORPROFILE";

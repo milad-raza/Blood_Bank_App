@@ -9,6 +9,7 @@ import {
   Alert,
   ActivityIndicator,
 } from 'react-native';
+import {List,ListItem} from 'native-base';
 import {connect} from 'react-redux';
 import database from '@react-native-firebase/database';
 import Home from './Home';
@@ -91,38 +92,48 @@ function Preview(props) {
 
   return (
     <View style={styles.cont}>
+      <List>
+        <ListItem>
       <Text style={styles.name}>
         Name : <Text>{props.firebase.name}</Text>
       </Text>
-      <Text></Text>
+      </ListItem>
+      <ListItem>
       <Text style={styles.name}>
         Age : <Text>{props.age}</Text>
       </Text>
-      <Text></Text>
+      </ListItem>
+      <ListItem>
       <Text style={styles.name}>
         Area : <Text>{props.area}</Text>
       </Text>
-      <Text></Text>
+      </ListItem>
+      <ListItem>
       <Text style={styles.name}>
         City : <Text>{props.firebase.city}</Text>
       </Text>
-      <Text></Text>
+      </ListItem>
+      <ListItem>
       <Text style={styles.name}>
         Gender : <Text>{props.gender}</Text>
       </Text>
-      <Text></Text>
+      </ListItem>
+      <ListItem>
       <Text style={styles.name}>
         Blood Group : <Text>{props.blood}</Text>
       </Text>
-      <Text></Text>
+      </ListItem>
+      <ListItem>
       <Text style={styles.name}>
         Mobile : <Text>{props.firebase.mobile}</Text>
       </Text>
-      <Text></Text>
+      </ListItem>
+      <ListItem>
       <Text style={styles.name}>
         Email : <Text>{props.firebase.email}</Text>
       </Text>
-      <Text></Text>
+      </ListItem>
+      </List>
 
       <TouchableOpacity
         onPress={() => donate()}

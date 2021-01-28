@@ -240,7 +240,6 @@ const mapDispatchToProp = (dispatch) => ({
   Gender: (gender) => dispatch(changeGender(gender)),
   Age: (age) => dispatch(changeAge(age)),
   Area: (area) => dispatch(changeArea(area)),
-
 })
 
 export default connect(mapStateToProps,mapDispatchToProp)(Details);
