@@ -14,6 +14,7 @@ import FindDonor from '../screens/FindDonor';
 import Details from '../screens/Details';
 import DonorProfile from '../screens/DonorProfile';
 import Preview from '../screens/Preview';
+import AvailableDonors from '../screens/AvailableDonors'
 import {connect} from 'react-redux';
 
 const Stack = createStackNavigator();
@@ -246,6 +247,31 @@ function AppNavigation(props) {
         <Stack.Screen
           name="Donor Profile"
           component={DonorProfile}
+          options={
+            props.login
+              ? {
+                  headerTintColor: '#ffffff',
+                  headerRight: () => (
+                    <Icon
+                      name="logout"
+                      size={30}
+                      style={{marginRight: 10}}
+                      color="#fff"
+                      onPress={() => {
+                        logout();
+                      }}
+                    />
+                  ),
+                  headerStyle: {
+                    backgroundColor: '#E6233F',
+                  },
+                }
+              : {headerShown: false}
+          }
+        />
+        <Stack.Screen
+          name="Available Donors"
+          component={AvailableDonors}
           options={
             props.login
               ? {

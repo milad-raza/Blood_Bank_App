@@ -25,27 +25,53 @@ import changeDonorProfile from '../store/Actions/DonorProfileAction';
 const boy = require('../assets/images/boy.png');
 const girl = require('../assets/images/girl.png');
 
-function AllDonors(props) {
+function AvailableDonors(props) {
   if (props.login === false) {
     return <Home navigation={props.navigation} />;
   }
 
-  const view = (name, age, city, area, blood, mobile, email, gender) => {
-    props.DonorProfile({name, age, city, area, blood, mobile, email, gender});
-
-    props.navigation.navigate('Donor Profile');
-  };
-
   const donors = props.donors;
+
+  const [filter, setFilter] = useState([]);
+
+  useEffect(() => {
+    const recipient = props.recipient;
+    setFilter([])
+    donors.map((value, index) => {
+      const blood = value.blood;
+
+      if(recipient === 'AB +'){
+          return setFilter(donors)
+      }
+      console.log(value.blood)
+      if(recipient === 'AB -'){
+        const data = ['O -',' A -', 'B -', 'AB -']
+        data.map((check)=>{
+            if(check.match(value.blood)){
+                var join = filter.concat(value)
+                setFilter(join)
+            }
+        })
+      }
+
+    });
+  }, []);
+
+  console.log(filter)
 
   if (donors.length < 1) {
     return <ActivityIndicator size="large" color="#214151" style={{flex: 1}} />;
   }
 
+  const view = (name, age, city, area, blood, mobile, email, gender) => {
+    props.DonorProfile({name, age, city, area, blood, mobile, email, gender});
+    props.navigation.navigate('Donor Profile');
+  };
+
   return (
     <Container>
       <ScrollView>
-        {donors.map((donor, index) => {
+        {filter.map((donor, index) => {
           return (
             <Content key={index}>
               <List>
@@ -118,6 +144,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   login: state.Login.login,
+  recipient: state.Recipient.recipient,
   donors: state.AllDonors.allDonors,
 });
 
@@ -125,4 +152,4 @@ const mapDispatchToProp = (dispatch) => ({
   DonorProfile: (donorProfile) => dispatch(changeDonorProfile(donorProfile)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProp)(AllDonors);
+export default connect(mapStateToProps, mapDispatchToProp)(AvailableDonors);

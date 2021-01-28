@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity,Alert,ToastAndroid,Platform} from 'react-native';
-import auth from '@react-native-firebase/auth';
 import Home from './Home';
 import { connect } from 'react-redux';
 import changeBloodDonate from '../store/Actions/BloodDonateAction';
