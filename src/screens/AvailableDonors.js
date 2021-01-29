@@ -43,16 +43,71 @@ function AvailableDonors(props) {
       if(recipient === 'AB +'){
           return setFilter(donors)
       }
-      console.log(value.blood)
-      if(recipient === 'AB -'){
-        const data = ['O -',' A -', 'B -', 'AB -']
+
+      else if(recipient === 'AB -'){
+        const data = ["O -", "A -", "B -", "AB -"]
         data.map((check)=>{
-            if(check.match(value.blood)){
-                var join = filter.concat(value)
-                setFilter(join)
-            }
+          if(check === blood) {
+            setFilter(old => [...old, value])
+          }
         })
       }
+
+      else if(recipient === 'B +'){
+        const data = ["O -", "O +", "B -", "B +"]
+        data.map((check)=>{
+          if(check === blood) {
+            setFilter(old => [...old, value])
+          }
+        })
+      }
+
+      else if(recipient === 'B -'){
+        const data = ["O -", "B -",]
+        data.map((check)=>{
+          if(check === blood) {
+            setFilter(old => [...old, value])
+          }
+        })
+      }
+
+      else if(recipient === 'A +'){
+        const data = ["O -", "A -", "O +", "A +"]
+        data.map((check)=>{
+          if(check === blood) {
+            setFilter(old => [...old, value])
+          }
+        })
+      }
+
+      else if(recipient === 'A -'){
+        const data = ["O -", "A -"]
+        data.map((check)=>{
+          if(check === blood) {
+            setFilter(old => [...old, value])
+          }
+        })
+      }
+
+      else if(recipient === 'O +'){
+        const data = ["O -", "O +"]
+        data.map((check)=>{
+          if(check === blood) {
+            setFilter(old => [...old, value])
+          }
+        })
+      }
+
+      else if(recipient === 'O -'){
+        const data = ["O -"]
+        data.map((check)=>{
+          if(check === blood) {
+            setFilter(old => [...old, value])
+          }
+        })
+      }
+
+      
 
     });
   }, []);
