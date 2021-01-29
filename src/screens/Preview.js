@@ -130,7 +130,7 @@ function Preview(props) {
       </ListItem>
       <ListItem>
       <Text style={styles.name}>
-        Email : <Text>{props.firebase.email}</Text>
+        Email : <Text style={styles.email}>{props.firebase.email}</Text>
       </Text>
       </ListItem>
       </List>
@@ -162,6 +162,21 @@ const styles = StyleSheet.create({
     fontFamily: 'sans',
     fontWeight: 'bold',
     color: '#214151',
+    textTransform: "capitalize"
+  },
+  email:{
+    fontSize: 20,
+    fontFamily: 'sans',
+    fontWeight: 'bold',
+    color: '#214151',
+    textTransform: "lowercase"
+  },
+  blood:{
+    fontSize: 20,
+    fontFamily: 'sans',
+    fontWeight: 'bold',
+    color: '#214151',
+    textTransform: "uppercase",
   },
   donateCont: {
     marginTop: 30,

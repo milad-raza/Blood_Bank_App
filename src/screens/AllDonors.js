@@ -96,10 +96,11 @@ function AllDonors(props) {
 
 const styles = StyleSheet.create({
   name: {
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: 'sans',
     fontWeight: 'bold',
     color: '#214151',
+    textTransform: "capitalize"
   },
   blood: {
     fontSize: 18,

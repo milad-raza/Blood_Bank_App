@@ -50,7 +50,7 @@ function DonorProfile(props) {
       </ListItem>
       <ListItem>
       <Text style={styles.name}>
-        Blood Group : <Text>{blood}</Text>
+        Blood Group : <Text style={styles.blood}>{blood}</Text>
       </Text>
       </ListItem>
       <ListItem>
@@ -60,7 +60,7 @@ function DonorProfile(props) {
       </ListItem>
       <ListItem>
       <Text style={styles.name} onPress={()=>{Linking.openURL(`mailto:${email}`);}}>
-        Email : <Text>{email}</Text>
+        Email : <Text style={styles.email}>{email}</Text>
       </Text>
       </ListItem>
       <ListItem>
@@ -89,12 +89,27 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
     },
-    name: {
+    name:{
       fontSize: 20,
       fontFamily: 'sans',
       fontWeight: 'bold',
       color: '#214151',
+      textTransform : "capitalize",
     },
+    email:{
+      fontSize: 20,
+      fontFamily: 'sans',
+      fontWeight: 'bold',
+      color: '#214151',
+      textTransform: "lowercase"
+    },
+    blood:{
+      fontSize: 20,
+      fontFamily: 'sans',
+      fontWeight: 'bold',
+      color: '#214151',
+      textTransform: "uppercase",
+    }
   });
 
 const mapStateToProps = (state) => ({

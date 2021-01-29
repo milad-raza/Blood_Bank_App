@@ -114,7 +114,7 @@ function Profile(props) {
         </ListItem>
         <ListItem>
           <Text style={styles.name}>
-            Blood Group : <Text>{blood}</Text>
+            Blood Group : <Text style={styles.blood}>{blood}</Text>
           </Text>
         </ListItem>
         <ListItem>
@@ -124,7 +124,7 @@ function Profile(props) {
         </ListItem>
         <ListItem>
           <Text style={styles.name}>
-            Email : <Text>{email}</Text>
+            Email : <Text style={styles.email}>{email}</Text>
           </Text>
         </ListItem>
       </List>
@@ -138,12 +138,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  name: {
+  name:{
     fontSize: 20,
     fontFamily: 'sans',
     fontWeight: 'bold',
     color: '#214151',
+    textTransform : "capitalize",
   },
+  email:{
+    fontSize: 20,
+    fontFamily: 'sans',
+    fontWeight: 'bold',
+    color: '#214151',
+    textTransform: "lowercase"
+  },
+  blood:{
+    fontSize: 20,
+    fontFamily: 'sans',
+    fontWeight: 'bold',
+    color: '#214151',
+    textTransform: "uppercase",
+  }
   // inputs: {
   //   width: 150,
   //   height: 30,
