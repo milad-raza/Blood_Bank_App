@@ -8,3 +8,4 @@ export const changefirebase = "CHANGEFIREBASE";
 export const changealldonors = "CHANGEALLDONORS";
 export const changedonorprofile = "CHANGEDONORPROFILE";
 export const changerecipient = "CHANGERECIPIENT";
+export const changerandomimage = "CHANGERANDOMIMAGE";

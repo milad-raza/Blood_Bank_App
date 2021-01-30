@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Image
 } from 'react-native';
 import {List, ListItem, Right} from 'native-base';
 import auth from '@react-native-firebase/auth';
@@ -26,6 +27,7 @@ function Profile(props) {
   const [area, setArea] = useState('');
   const [mobile, setMobile] = useState('');
   const [email, setEmail] = useState('');
+  const [image, setImage] = useState('')
 
   const [ageInput, setAgeInput] = useState(false);
 
@@ -35,6 +37,7 @@ function Profile(props) {
       setCity(props.firebase.city);
       setMobile(props.firebase.mobile);
       setEmail(props.firebase.email);
+      setImage(props.src)
       setAge(props.age);
       setArea(props.area);
       setGender(props.gender);
@@ -48,6 +51,7 @@ function Profile(props) {
       setArea(props.firebase.area);
       setGender(props.firebase.gender);
       setBlood(props.firebase.blood);
+      setImage(props.firebase.src)
     }
   }, []);
 
@@ -87,6 +91,9 @@ function Profile(props) {
   return (
     <View style={styles.cont}>
       <List>
+        <ListItem>
+        <Image source={image} style={{width: 70, height: 70, borderRadius: 100}} />
+        </ListItem>
         <ListItem>
           <Text style={styles.name}>
             Name : <Text>{name}</Text>
@@ -196,6 +203,7 @@ const mapStateToProps = (state) => ({
   age: state.Age.age,
   area: state.Area.area,
   firebase: state.Firebase.firebase,
+  src: state.RandomImage.randomImage
 });
 
 // const mapDispatchToProp = (dispatch) => ({

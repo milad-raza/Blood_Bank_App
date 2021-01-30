@@ -22,16 +22,16 @@ import Home from './Home';
 import {connect} from 'react-redux';
 import changeDonorProfile from '../store/Actions/DonorProfileAction';
 
-const boy = require('../assets/images/boy.png');
-const girl = require('../assets/images/girl.png');
+// const boy = require('../assets/images/boy1.png');
+// const girl = require('../assets/images/girl1.png');
 
 function AllDonors(props) {
   if (props.login === false) {
     return <Home navigation={props.navigation} />;
   }
 
-  const view = (name, age, city, area, blood, mobile, email, gender) => {
-    props.DonorProfile({name, age, city, area, blood, mobile, email, gender});
+  const view = (name, age, city, area, blood, mobile, email, gender,src) => {
+    props.DonorProfile({name, age, city, area, blood, mobile, email, gender,src});
 
     props.navigation.navigate('Donor Profile');
   };
@@ -52,8 +52,8 @@ function AllDonors(props) {
                 <ListItem thumbnail>
                   <Left>
                     <Thumbnail
-                      square
-                      source={donor.gender === 'Male' ? boy : girl}
+                      avatar
+                      source={donor.src}
                     />
                   </Left>
                   <Body>
@@ -79,6 +79,7 @@ function AllDonors(props) {
                           donor.mobile,
                           donor.email,
                           donor.gender,
+                          donor.src
                         );
                       }}>
                       <Text style={{fontSize: 18, color: '#214151'}}>View</Text>

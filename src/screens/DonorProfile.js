@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet,Linking} from 'react-native';
+import {View, Text, StyleSheet,Linking,Image} from 'react-native';
 import {List,ListItem} from 'native-base';
 import {connect} from 'react-redux';
 import Home from '../screens/Home';
@@ -19,13 +19,17 @@ function DonorProfile(props) {
   const mobile = props.donorProfile.mobile;
   const gender = props.donorProfile.gender;
   const blood = props.donorProfile.blood;
+  const src = props.donorProfile.src
 
   return (
     <View style={styles.cont}>
         <List>
+          <ListItem>
+          <Image source={src} style={{width: 50, height: 50, borderRadius: 100}}/>
+          </ListItem>
         <ListItem>
       <Text style={styles.name}>
-        Name : <Text>{name}</Text>
+        Name : <Text>{name}</Text> 
       </Text>
       </ListItem>
       <ListItem>
@@ -90,21 +94,21 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     name:{
-      fontSize: 20,
+      fontSize: 18,
       fontFamily: 'sans',
       fontWeight: 'bold',
       color: '#214151',
       textTransform : "capitalize",
     },
     email:{
-      fontSize: 20,
+      fontSize: 18,
       fontFamily: 'sans',
       fontWeight: 'bold',
       color: '#214151',
       textTransform: "lowercase"
     },
     blood:{
-      fontSize: 20,
+      fontSize: 18,
       fontFamily: 'sans',
       fontWeight: 'bold',
       color: '#214151',

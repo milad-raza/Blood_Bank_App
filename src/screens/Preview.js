@@ -8,6 +8,7 @@ import {
   ToastAndroid,
   Alert,
   ActivityIndicator,
+  Image
 } from 'react-native';
 import {List,ListItem} from 'native-base';
 import {connect} from 'react-redux';
@@ -28,8 +29,11 @@ function Preview(props) {
   const gender = props.gender;
   const age = props.age;
   const area = props.area;
+  const src = props.image
 
   const [loading, setLoading] = useState(false);
+
+  console.log(props.image)
 
   const donate = () => {
     setLoading(true);
@@ -45,6 +49,7 @@ function Preview(props) {
         gender,
         age,
         area,
+        src
       })
       .then(function () {
         database()
@@ -59,6 +64,7 @@ function Preview(props) {
             gender,
             age,
             area,
+            src
           })
           .then(function () {
             setLoading(false);
@@ -93,6 +99,9 @@ function Preview(props) {
   return (
     <View style={styles.cont}>
       <List>
+        {/* <ListItem>
+          <Image source={src} style={{width: 50, height: 50, borderRadius: 100}}/>
+        </ListItem> */}
         <ListItem>
       <Text style={styles.name}>
         Name : <Text>{props.firebase.name}</Text>
@@ -201,6 +210,7 @@ const mapStateToProps = (state) => ({
   age: state.Age.age,
   area: state.Area.area,
   firebase: state.Firebase.firebase,
+  image: state.RandomImage.randomImage
 });
 
 export default connect(mapStateToProps)(Preview);

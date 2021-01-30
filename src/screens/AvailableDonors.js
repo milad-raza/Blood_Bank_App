@@ -29,9 +29,6 @@ import Home from './Home';
 import {connect} from 'react-redux';
 import changeDonorProfile from '../store/Actions/DonorProfileAction';
 
-const boy = require('../assets/images/boy.png');
-const girl = require('../assets/images/girl.png');
-
 function AvailableDonors(props) {
   if (props.login === false) {
     return <Home navigation={props.navigation} />;
@@ -120,12 +117,14 @@ function AvailableDonors(props) {
       } else {
         Alert.alert('Error', 'Please Enter Valid City Name!');
       }
-    } else if (city === '') {
+    }
+     else if (city === '') {
       setFilter([]);
       setFilter(oldData);
-    } else {
+    }
+    else {
       setFilter([]);
-      filter.map((value) => {
+      oldData.map((value) => {
         const cityname = value.city;
         if (typeof cityname !== 'undefined') {
           const lowername = cityname.toLowerCase();
@@ -133,50 +132,49 @@ function AvailableDonors(props) {
           if (lowername === lowercity) {
             setFilter((old) => [...old, value]);
           }
-        } else {
-          setFilter(null);
         }
       });
     }
+
   };
 
   const change = (e) => {
     if (e === '') {
       setFilter(oldData);
       setCity(e);
-    } else {
+    }
+    else {
       setCity(e);
     }
+
   };
 
-  if (donors.length < 1) {
+
+// {
+//   <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+//           <Text
+//             style={{
+//               fontSize: 26,
+//               color: '#214151',
+//               fontWeight: 'bold',
+//               fontFamily: 'georgia',
+//               textAlign: "center"
+//             }}>
+//             No Donor Found In This City
+//           </Text>
+//         </View>
+// }
+
+
+  if (oldData.length < 1) {
     return <ActivityIndicator size="large" color="#214151" style={{flex: 1}} />;
   }
+  
 
-  if (filter.length < 1) {
-    return <ActivityIndicator size="large" color="#214151" style={{flex: 1}} />;
-  }
-
-  const view = (name, age, city, area, blood, mobile, email, gender) => {
-    props.DonorProfile({name, age, city, area, blood, mobile, email, gender});
+  const view = (name, age, city, area, blood, mobile, email, gender, src) => {
+    props.DonorProfile({name, age, city, area, blood, mobile, email, gender, src});
     props.navigation.navigate('Donor Profile');
   };
-
-  if (filter === null) {
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text
-          style={{
-            fontSize: 26,
-            color: '#214151',
-            fontWeight: 'bold',
-            fontFamily: 'georgia',
-          }}>
-          No Donor Found In {city}
-        </Text>
-      </View>
-    );
-  }
 
   return (
     <Container>
@@ -206,52 +204,55 @@ function AvailableDonors(props) {
           <Icon name="magnifying-glass" size={28} color="#ffffff" />
         </TouchableOpacity>
       </Item>
-      <ScrollView>
-        {filter.map((donor, index) => {
-          return (
-            <Content key={index}>
-              <List>
-                <ListItem thumbnail>
-                  <Left>
-                    <Thumbnail
-                      square
-                      source={donor.gender === 'Male' ? boy : girl}
-                    />
-                  </Left>
-                  <Body>
-                    <Text style={styles.name}>{donor.name}</Text>
-                    <Text note numberOfLines={1} style={styles.blood}>
-                      Blood Group :{' '}
-                      <Text style={{fontWeight: 'bold', color: '#214151'}}>
-                        {donor.blood}
+        <ScrollView>
+          {filter.map((donor, index) => {
+            return (
+              <Content key={index}>
+                <List>
+                  <ListItem thumbnail>
+                    <Left>
+                      <Thumbnail
+                        avatar
+                        source={donor.src}
+                      />
+                    </Left>
+                    <Body>
+                      <Text style={styles.name}>{donor.name}</Text>
+                      <Text note numberOfLines={1} style={styles.blood}>
+                        Blood Group :{' '}
+                        <Text style={{fontWeight: 'bold', color: '#214151'}}>
+                          {donor.blood}
+                        </Text>
                       </Text>
-                    </Text>
-                  </Body>
-                  <Right>
-                    <TouchableOpacity
-                      style={styles.view}
-                      activeOpacity={0.4}
-                      onPress={() => {
-                        view(
-                          donor.name,
-                          donor.age,
-                          donor.city,
-                          donor.area,
-                          donor.blood,
-                          donor.mobile,
-                          donor.email,
-                          donor.gender,
-                        );
-                      }}>
-                      <Text style={{fontSize: 18, color: '#214151'}}>View</Text>
-                    </TouchableOpacity>
-                  </Right>
-                </ListItem>
-              </List>
-            </Content>
-          );
-        })}
-      </ScrollView>
+                    </Body>
+                    <Right>
+                      <TouchableOpacity
+                        style={styles.view}
+                        activeOpacity={0.4}
+                        onPress={() => {
+                          view(
+                            donor.name,
+                            donor.age,
+                            donor.city,
+                            donor.area,
+                            donor.blood,
+                            donor.mobile,
+                            donor.email,
+                            donor.gender,
+                            donor.src
+                          );
+                        }}>
+                        <Text style={{fontSize: 18, color: '#214151'}}>
+                          View
+                        </Text>
+                      </TouchableOpacity>
+                    </Right>
+                  </ListItem>
+                </List>
+              </Content>
+            );
+          })}
+        </ScrollView>
     </Container>
   );
 }
@@ -262,7 +263,7 @@ const styles = StyleSheet.create({
     fontFamily: 'sans',
     fontWeight: 'bold',
     color: '#214151',
-    textTransform: "capitalize",
+    textTransform: 'capitalize',
   },
   blood: {
     fontSize: 18,

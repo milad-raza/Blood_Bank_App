@@ -12,6 +12,12 @@ import {
 import changeGender from '../store/Actions/GenderAction';
 import changeAge from '../store/Actions/AgeAction';
 import changeArea from '../store/Actions/AreaAction';
+import changeRandomImage from '../store/Actions/RandomImageAction'
+
+const boys = [require('../assets/images/boy1.png'), require('../assets/images/boy2.png'), require('../assets/images/boy3.png'), require('../assets/images/boy4.png')]
+const girls = [require('../assets/images/girl1.png'), require('../assets/images/girl2.png'), require('../assets/images/girl3.png'), require('../assets/images/girl4.png')]
+
+
 
 function Details(props) {
   if (props.login === false) {
@@ -22,6 +28,19 @@ function Details(props) {
   const [age,setAge] = useState("")
   const [area,setArea] = useState("")
   const [gender,setGender] = useState("")
+  const [image,setImage] = useState("")
+
+  useEffect(()=>{
+    if(gender === "Male"){
+      var randomBoy = Math.floor(Math.random() * boys.length)
+      setImage(boys[randomBoy])
+
+    }
+    else if(gender === "Female"){
+      var randomGirl = Math.floor(Math.random() * girls.length)
+      setImage(girls[randomGirl])
+    }
+  },[gender])
 
   const preview = () => {
     Keyboard.dismiss();
@@ -47,6 +66,7 @@ function Details(props) {
       }
     }
     else{
+      props.Image(image)
       props.Gender(gender)
       props.Age(age)
       props.Area(area)
@@ -233,6 +253,7 @@ const mapStateToProps = (state) => ({
   gender: state.Gender.gender,
   age: state.Age.age,
   area: state.Area.area,
+  image: state.RandomImage.randomImage
 
 });
 
@@ -240,6 +261,8 @@ const mapDispatchToProp = (dispatch) => ({
   Gender: (gender) => dispatch(changeGender(gender)),
   Age: (age) => dispatch(changeAge(age)),
   Area: (area) => dispatch(changeArea(area)),
+  Image: (image) => dispatch(changeRandomImage(image))
+
 })
 
 export default connect(mapStateToProps,mapDispatchToProp)(Details);
