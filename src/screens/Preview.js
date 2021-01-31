@@ -14,6 +14,7 @@ import {List,ListItem} from 'native-base';
 import {connect} from 'react-redux';
 import database from '@react-native-firebase/database';
 import Home from './Home';
+import changeFirebase from '../store/Actions/FirebaseAction';
 
 function Preview(props) {
   if (props.login === false) {
@@ -99,9 +100,9 @@ function Preview(props) {
   return (
     <View style={styles.cont}>
       <List>
-        {/* <ListItem>
-          <Image source={src} style={{width: 50, height: 50, borderRadius: 100}}/>
-        </ListItem> */}
+        <ListItem>
+          <Image source={src} style={{width: 60, height: 60, borderRadius: 100}}/>
+        </ListItem>
         <ListItem>
       <Text style={styles.name}>
         Name : <Text>{props.firebase.name}</Text>
@@ -167,28 +168,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   name: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'sans',
     fontWeight: 'bold',
     color: '#214151',
     textTransform: "capitalize"
   },
   email:{
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'sans',
     fontWeight: 'bold',
     color: '#214151',
     textTransform: "lowercase"
   },
   blood:{
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'sans',
     fontWeight: 'bold',
     color: '#214151',
     textTransform: "uppercase",
   },
   donateCont: {
-    marginTop: 30,
+    marginTop: 20,
     borderRadius: 5,
     width: '78%',
     height: 50,

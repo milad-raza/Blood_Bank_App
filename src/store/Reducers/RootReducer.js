@@ -9,7 +9,8 @@ import FirebaseReducer from './FirebaseReducer';
 import AllDonorsReducer from './AllDonorsReducer';
 import DonorProfileReducer from './DonorProfileReducer';
 import RecipientReducer from './RecipientReducer';
-import RandomImageReducer from './RandomImageReducer'
+import RandomImageReducer from './RandomImageReducer';
+import DonatedReducer from './DonatedReducer'
 
 const Reducers = combineReducers({
     Login: LoginReducer,
@@ -23,7 +24,7 @@ const Reducers = combineReducers({
     DonorProfile: DonorProfileReducer,
     Recipient: RecipientReducer,
     RandomImage: RandomImageReducer,
-    
+    Donated: DonatedReducer,
 })
 
 export default Reducers;

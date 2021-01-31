@@ -23,6 +23,7 @@ function DonorProfile(props) {
 
   return (
     <View style={styles.cont}>
+      
         <List>
           <ListItem>
           <Image source={src} style={{width: 50, height: 50, borderRadius: 100}}/>
@@ -70,15 +71,15 @@ function DonorProfile(props) {
       <ListItem>
       <Text >
         <TouchableOpacity onPress={()=>{Linking.openURL(`tel:${mobile}`);}} activeOpacity={0.6}>
-        <Icon name="phone" size={34} color="#214151" />
+        <Icon name="phone" size={28} color="#214151" />
         </TouchableOpacity>
         <Text>       </Text>
         <TouchableOpacity onPress={()=>{Linking.openURL(`sms:${mobile}`);}} activeOpacity={0.6}>
-        <Icon name="message-text" size={34} color="#214151" />
+        <Icon name="message-text" size={28} color="#214151" />
         </TouchableOpacity>
         <Text>       </Text>
         <TouchableOpacity onPress={()=>{Linking.openURL(`mailto:${email}`);}} activeOpacity={0.6}>
-        <Icon name="email" size={34} color="#214151" />
+        <Icon name="email" size={28} color="#214151" />
         </TouchableOpacity>
       </Text>
       </ListItem>

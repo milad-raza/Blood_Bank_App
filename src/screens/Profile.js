@@ -12,7 +12,11 @@ import auth from '@react-native-firebase/auth';
 import Home from './Home';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Icons from 'react-native-vector-icons/MaterialIcons'
+import Icons from 'react-native-vector-icons/MaterialIcons';
+import database from '@react-native-firebase/database';
+import changeDonated from '../store/Actions/DonatedAction'
+import changeFirebase from '../store/Actions/FirebaseAction'
+
 
 function Profile(props) {
   if (props.login === false) {
@@ -27,7 +31,7 @@ function Profile(props) {
   const [area, setArea] = useState('');
   const [mobile, setMobile] = useState('');
   const [email, setEmail] = useState('');
-  const [image, setImage] = useState('')
+  const [src, setSrc] = useState('')
 
   const [ageInput, setAgeInput] = useState(false);
 
@@ -37,11 +41,11 @@ function Profile(props) {
       setCity(props.firebase.city);
       setMobile(props.firebase.mobile);
       setEmail(props.firebase.email);
-      setImage(props.src)
-      setAge(props.age);
-      setArea(props.area);
-      setGender(props.gender);
-      setBlood(props.blood);
+      setAge(props.firebase.age);
+      setArea(props.firebase.area);
+      setGender(props.firebase.gender);
+      setBlood(props.firebase.blood);
+      setSrc(props.firebase.src)
     } else {
       setName(props.firebase.name);
       setCity(props.firebase.city);
@@ -51,9 +55,40 @@ function Profile(props) {
       setArea(props.firebase.area);
       setGender(props.firebase.gender);
       setBlood(props.firebase.blood);
-      setImage(props.firebase.src)
+      setSrc(props.firebase.src)
     }
   }, []);
+
+  const del = () =>{
+    database()
+        .ref(`Blood_Bank_Donors/${props.user}`)
+        .remove()
+        .then( () => {
+          console.log("delrted")
+          props.ChangeDonated(false)
+        });
+  }
+
+  useEffect(()=>{
+    database().ref(`Blood_Bank_Donors/${props.user}`)
+    .once('value')
+    .then(data => {
+      if(data.val() !== null){
+        if((data.val().user) === props.user){
+          props.ChangeDonated(true)
+        }
+        }
+    });
+  },[])
+
+  useEffect(()=>{
+    database().ref(`Blood_Bank_Users/${props.user}`)
+    .once('value')
+    .then(data => {
+        props.ChangeFirebase(data.val())
+    });
+  },[])
+
 
   // const handleChange = () => {
   //   setAgeInput(false)
@@ -91,9 +126,18 @@ function Profile(props) {
   return (
     <View style={styles.cont}>
       <List>
-        <ListItem>
-        <Image source={image} style={{width: 70, height: 70, borderRadius: 100}} />
+        {(props.donated) 
+          ?
+        (
+          <ListItem>
+          <Image source={src} style={{width: 50, height: 50, borderRadius: 100}}/>
         </ListItem>
+        )
+      : 
+      (
+        <></>
+      )
+      }
         <ListItem>
           <Text style={styles.name}>
             Name : <Text>{name}</Text>
@@ -134,6 +178,24 @@ function Profile(props) {
             Email : <Text style={styles.email}>{email}</Text>
           </Text>
         </ListItem>
+        {
+          (props.donated) 
+          ?
+          (<ListItem style={{justifyContent: "space-between"}}>
+          <Text style={styles.name}>
+            Donated : Yes
+          </Text>
+          <TouchableOpacity onPress={()=>{del()}}>
+            <Icon name="delete-outline" size={30} style={styles.icon} color={"red"} />
+          </TouchableOpacity> 
+          </ListItem>)
+          :
+          (<ListItem>
+          <Text style={styles.name}>
+            Donated : No
+          </Text>
+          </ListItem>)
+        }
       </List>
     </View>
   );
@@ -146,21 +208,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   name:{
-    fontSize: 20,
+    fontSize: 17,
     fontFamily: 'sans',
     fontWeight: 'bold',
     color: '#214151',
     textTransform : "capitalize",
   },
   email:{
-    fontSize: 20,
+    fontSize: 17,
     fontFamily: 'sans',
     fontWeight: 'bold',
     color: '#214151',
     textTransform: "lowercase"
   },
   blood:{
-    fontSize: 20,
+    fontSize: 17,
     fontFamily: 'sans',
     fontWeight: 'bold',
     color: '#214151',
@@ -192,6 +254,9 @@ const styles = StyleSheet.create({
   //   borderBottomLeftRadius: 0,
   //   color: '#ffffff'
   // },
+  ,del: {
+    height: 30,
+  },
 });
 
 const mapStateToProps = (state) => ({
@@ -203,11 +268,13 @@ const mapStateToProps = (state) => ({
   age: state.Age.age,
   area: state.Area.area,
   firebase: state.Firebase.firebase,
-  src: state.RandomImage.randomImage
+  src: state.RandomImage.randomImage,
+  donated: state.Donated.donated
 });
 
-// const mapDispatchToProp = (dispatch) => ({
-//   BloodDonate: (bloodDonate) => dispatch(changeBloodDonate(bloodDonate)),
-// })
+const mapDispatchToProp = (dispatch) => ({
+  ChangeDonated: (donated) => dispatch(changeDonated(donated)),
+  ChangeFirebase: (firebase) => dispatch(changeFirebase(firebase))
+})
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps,mapDispatchToProp)(Profile);

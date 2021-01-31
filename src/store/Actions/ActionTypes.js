@@ -9,3 +9,4 @@ export const changealldonors = "CHANGEALLDONORS";
 export const changedonorprofile = "CHANGEDONORPROFILE";
 export const changerecipient = "CHANGERECIPIENT";
 export const changerandomimage = "CHANGERANDOMIMAGE";
+export const changedonated = "CHANGEDONATED";

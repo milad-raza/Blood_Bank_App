@@ -39,6 +39,7 @@ function AvailableDonors(props) {
   const [filter, setFilter] = useState([]);
   const [city, setCity] = useState('');
   const [oldData, setOldData] = useState([]);
+  const [oldCity,setOldCity] = useState('')
 
   useEffect(() => {
     const recipient = props.recipient;
@@ -123,6 +124,7 @@ function AvailableDonors(props) {
       setFilter(oldData);
     }
     else {
+      setOldCity(city)
       setFilter([]);
       oldData.map((value) => {
         const cityname = value.city;
@@ -149,21 +151,6 @@ function AvailableDonors(props) {
 
   };
 
-
-// {
-//   <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-//           <Text
-//             style={{
-//               fontSize: 26,
-//               color: '#214151',
-//               fontWeight: 'bold',
-//               fontFamily: 'georgia',
-//               textAlign: "center"
-//             }}>
-//             No Donor Found In This City
-//           </Text>
-//         </View>
-// }
 
 
   if (oldData.length < 1) {
@@ -205,53 +192,71 @@ function AvailableDonors(props) {
         </TouchableOpacity>
       </Item>
         <ScrollView>
-          {filter.map((donor, index) => {
-            return (
-              <Content key={index}>
-                <List>
-                  <ListItem thumbnail>
-                    <Left>
-                      <Thumbnail
-                        avatar
-                        source={donor.src}
-                      />
-                    </Left>
-                    <Body>
-                      <Text style={styles.name}>{donor.name}</Text>
-                      <Text note numberOfLines={1} style={styles.blood}>
-                        Blood Group :{' '}
-                        <Text style={{fontWeight: 'bold', color: '#214151'}}>
-                          {donor.blood}
-                        </Text>
+          
+{(filter.length < 1) ?
+ ( <View style={{justifyContent: 'center', alignItems: 'center',height: 500}}>
+          <Text
+            style={{
+              fontSize: 26,
+              color: '#214151',
+              fontWeight: 'bold',
+              fontFamily: 'georgia',
+              textAlign: "center"
+            }}>
+            No Donor Found In {oldCity}
+          </Text>
+        </View>)
+        :
+        (filter.map((donor, index) => {
+          return (
+            <Content key={index}>
+              <List>
+                <ListItem thumbnail>
+                  <Left>
+                    <Thumbnail
+                      avatar
+                      source={donor.src}
+                    />
+                  </Left>
+                  <Body>
+                    <Text style={styles.name}>{donor.name}</Text>
+                    <Text note numberOfLines={1} style={styles.blood}>
+                      Blood Group :{' '}
+                      <Text style={{fontWeight: 'bold', color: '#214151'}}>
+                        {donor.blood}
                       </Text>
-                    </Body>
-                    <Right>
-                      <TouchableOpacity
-                        style={styles.view}
-                        activeOpacity={0.4}
-                        onPress={() => {
-                          view(
-                            donor.name,
-                            donor.age,
-                            donor.city,
-                            donor.area,
-                            donor.blood,
-                            donor.mobile,
-                            donor.email,
-                            donor.gender,
-                            donor.src
-                          );
-                        }}>
-                        <Text style={{fontSize: 18, color: '#214151'}}>
-                          View
-                        </Text>
-                      </TouchableOpacity>
-                    </Right>
-                  </ListItem>
-                </List>
-              </Content>
-            );
-          })}
+                    </Text>
+                  </Body>
+                  <Right>
+                    <TouchableOpacity
+                      style={styles.view}
+                      activeOpacity={0.4}
+                      onPress={() => {
+                        view(
+                          donor.name,
+                          donor.age,
+                          donor.city,
+                          donor.area,
+                          donor.blood,
+                          donor.mobile,
+                          donor.email,
+                          donor.gender,
+                          donor.src
+                        );
+                      }}>
+                      <Text style={{fontSize: 18, color: '#214151'}}>
+                        View
+                      </Text>
+                    </TouchableOpacity>
+                  </Right>
+                </ListItem>
+              </List>
+            </Content>
+          );
+        }))
+}
+
+          
         </ScrollView>
     </Container>
   );

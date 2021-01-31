@@ -12,6 +12,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import database from '@react-native-firebase/database';
 import { connect } from 'react-redux';
 import changeAllDonors from '../store/Actions/AllDonorsAction';
+import changeDonated from '../store/Actions/DonatedAction';
 
 
 function Dashboard(props) {
@@ -57,6 +58,8 @@ function Dashboard(props) {
   ];
 
 const [donors,setDonors] = useState([])
+const [donated,setDonated] = useState(false)
+
 useEffect(()=>{
     database()
         .ref('Blood_Bank_Donors')
@@ -65,14 +68,19 @@ useEffect(()=>{
           snapshot.forEach(function (childSnapshot) {
             let data = childSnapshot.val();
             setDonors((donors) => [...donors, data]);
+            if(data.user === props.user){
+              setDonated(true)
+            }
           });
         }
         )
-  }, [])
-
+  },[])
   useEffect(()=>{ 
     props.ChangeAllDonors(donors)
+    props.ChangeDonated(donated)
   },[donors])
+
+
 
   return (
     <>
@@ -149,10 +157,12 @@ const mapStateToProps = (state) => ({
   age: state.Age.age,
   area: state.Area.area,
   donors: state.AllDonors.allDonors,
+  donated: state.Donated.donated
 })
 
 const mapDispatchToProp = (dispatch) => ({
-  ChangeAllDonors: (allDonors) => dispatch(changeAllDonors(allDonors))
+  ChangeAllDonors: (allDonors) => dispatch(changeAllDonors(allDonors)),
+  ChangeDonated: (donated) => dispatch(changeDonated(donated)),
 })
 
 export default connect(mapStateToProps,mapDispatchToProp)(Dashboard);
