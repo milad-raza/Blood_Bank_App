@@ -14,8 +14,8 @@ import changeAge from '../store/Actions/AgeAction';
 import changeArea from '../store/Actions/AreaAction';
 import changeRandomImage from '../store/Actions/RandomImageAction'
 
-const boys = [require('../assets/images/boy1.png'), require('../assets/images/boy2.png'), require('../assets/images/boy3.png'), require('../assets/images/boy4.png')]
-const girls = [require('../assets/images/girl1.png'), require('../assets/images/girl2.png'), require('../assets/images/girl3.png'), require('../assets/images/girl4.png')]
+const boys = [require('../assets/images/boy1.png'), require('../assets/images/boy2.png'), require('../assets/images/boy3.png'), require('../assets/images/boy4.png'), require('../assets/images/boy5.png'), require('../assets/images/boy6.png'), require('../assets/images/boy7.png'),  require('../assets/images/boy8.png'),]
+const girls = [require('../assets/images/girl1.png'), require('../assets/images/girl2.png'), require('../assets/images/girl3.png'), require('../assets/images/girl4.png'), require('../assets/images/girl5.png'), require('../assets/images/girl6.png'), require('../assets/images/girl7.png'), require('../assets/images/girl8.png'),]
 
 
 

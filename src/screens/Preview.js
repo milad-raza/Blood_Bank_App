@@ -101,7 +101,7 @@ function Preview(props) {
     <View style={styles.cont}>
       <List>
         <ListItem>
-          <Image source={src} style={{width: 60, height: 60, borderRadius: 100}}/>
+          <Image source={src} style={{width: 50, height: 50, borderRadius: 100}}/>
         </ListItem>
         <ListItem>
       <Text style={styles.name}>
@@ -168,31 +168,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   name: {
-    fontSize: 18,
+    fontSize: 15,
     fontFamily: 'sans',
     fontWeight: 'bold',
     color: '#214151',
     textTransform: "capitalize"
   },
   email:{
-    fontSize: 18,
+    fontSize: 15,
     fontFamily: 'sans',
     fontWeight: 'bold',
     color: '#214151',
     textTransform: "lowercase"
   },
   blood:{
-    fontSize: 18,
+    fontSize: 15,
     fontFamily: 'sans',
     fontWeight: 'bold',
     color: '#214151',
     textTransform: "uppercase",
   },
   donateCont: {
-    marginTop: 20,
+    marginTop: 10,
     borderRadius: 5,
-    width: '78%',
-    height: 50,
+    width: '70%',
+    height: 46,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#E6233F',

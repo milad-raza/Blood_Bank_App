@@ -2,6 +2,8 @@ package com.blood_bank_app;
 
 import com.facebook.react.ReactActivity;
 
+import org.devio.rn.splashscreen.SplashScreen;
+import android.os.Bundle;
 public class MainActivity extends ReactActivity {
 
   /**
@@ -12,4 +14,10 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "Blood_Bank_App";
   }
+
+  @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.show(this); 
+        super.onCreate(savedInstanceState);
+    }
 }

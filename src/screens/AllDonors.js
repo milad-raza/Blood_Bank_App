@@ -22,9 +22,6 @@ import Home from './Home';
 import {connect} from 'react-redux';
 import changeDonorProfile from '../store/Actions/DonorProfileAction';
 
-// const boy = require('../assets/images/boy1.png');
-// const girl = require('../assets/images/girl1.png');
-
 function AllDonors(props) {
   if (props.login === false) {
     return <Home navigation={props.navigation} />;
@@ -41,6 +38,15 @@ function AllDonors(props) {
   if (donors.length < 1) {
     return <ActivityIndicator size="large" color="#214151" style={{flex: 1}} />;
   }
+
+  donors.sort(function(a, b){
+    var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase()
+    if (nameA < nameB) //sort string ascending
+        return -1 
+    if (nameA > nameB)
+        return 1
+    return 0 //default return value (no sorting)
+})
 
   return (
     <Container>

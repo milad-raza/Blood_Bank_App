@@ -14,7 +14,8 @@ import FindDonor from '../screens/FindDonor';
 import Details from '../screens/Details';
 import DonorProfile from '../screens/DonorProfile';
 import Preview from '../screens/Preview';
-import AvailableDonors from '../screens/AvailableDonors'
+import AvailableDonors from '../screens/AvailableDonors';
+import changeAge from '../store/Actions/AgeAction';
 import {connect} from 'react-redux';
 
 const Stack = createStackNavigator();
@@ -22,7 +23,10 @@ const Stack = createStackNavigator();
 function AppNavigation(props) {
   
   const logout = () => {
-    auth().signOut().then(null).catch(null);
+    auth().signOut().then(
+      props.Age(null)
+    )
+    .catch(null);
   };
 
   return (
@@ -302,5 +306,8 @@ function AppNavigation(props) {
 const mapStateToProps = (state) => ({
   login: state.Login.login,
 });
+const mapDispatchToProp = (dispatch) => ({
+  Age: (age) => dispatch(changeAge(age)),
+})
 
-export default connect(mapStateToProps)(AppNavigation);
+export default connect(mapStateToProps,mapDispatchToProp)(AppNavigation);

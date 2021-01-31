@@ -95,21 +95,21 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     name:{
-      fontSize: 18,
+      fontSize: 16,
       fontFamily: 'sans',
       fontWeight: 'bold',
       color: '#214151',
       textTransform : "capitalize",
     },
     email:{
-      fontSize: 18,
+      fontSize: 16,
       fontFamily: 'sans',
       fontWeight: 'bold',
       color: '#214151',
       textTransform: "lowercase"
     },
     blood:{
-      fontSize: 18,
+      fontSize: 16,
       fontFamily: 'sans',
       fontWeight: 'bold',
       color: '#214151',
