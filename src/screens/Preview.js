@@ -34,7 +34,9 @@ function Preview(props) {
 
   const [loading, setLoading] = useState(false);
 
-  console.log(props.image)
+  if (name === undefined || name === null) {
+    return <ActivityIndicator size="large" color="#214151" style={{flex: 1}} />;
+  }
 
   const donate = () => {
     setLoading(true);

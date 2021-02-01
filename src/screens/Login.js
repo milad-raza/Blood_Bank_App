@@ -82,7 +82,6 @@ export default function Login(props) {
             returnKeyType="next"
             blurOnSubmit={false}
             autoCapitalize="none"
-            autoCorrect={false}
             onChangeText={(e) => {
               setEmail(e);
             }}

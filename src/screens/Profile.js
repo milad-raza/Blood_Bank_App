@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import {List, ListItem, Right, Thumbnail} from 'native-base';
 import auth from '@react-native-firebase/auth';
@@ -20,6 +21,13 @@ import changeFirebase from '../store/Actions/FirebaseAction';
 function Profile(props) {
   if (props.login === false) {
     return <Home navigation={props.navigation} />;
+  }
+
+  const fire = props.firebase.name
+
+
+  if (fire === undefined || fire === null) {
+    return <ActivityIndicator size="large" color="#214151" style={{flex: 1}} />;
   }
 
   const [name, setName] = useState('');
@@ -182,7 +190,7 @@ function Profile(props) {
         </ListItem>
         {props.donated ? (
           <ListItem style={{justifyContent: 'space-between'}}>
-            <Text style={styles.name}>Donated : Yes</Text>
+            <Text style={styles.name}>Posted : Yes</Text>
             <TouchableOpacity
               onPress={() => {
                 del();
@@ -197,7 +205,7 @@ function Profile(props) {
           </ListItem>
         ) : (
           <ListItem>
-            <Text style={styles.name}>Donated : No</Text>
+            <Text style={styles.name}>Posted : No</Text>
           </ListItem>
         )}
       </List>

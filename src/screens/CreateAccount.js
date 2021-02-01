@@ -193,7 +193,6 @@ export default function Signup(props) {
             returnKeyType="next"
             blurOnSubmit={false}
             autoCapitalize='none'
-            autoCorrect={false}
             onChangeText={(e)=>{setEmail(e)}}
             value={email}
             onSubmitEditing={() => mobileInput.current.focus()}
