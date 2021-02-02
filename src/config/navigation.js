@@ -15,6 +15,7 @@ import Details from '../screens/Details';
 import DonorProfile from '../screens/DonorProfile';
 import Preview from '../screens/Preview';
 import AvailableDonors from '../screens/AvailableDonors';
+import UpdateInfo from '../screens/UpdateInfo'
 import changeAge from '../store/Actions/AgeAction';
 import {connect} from 'react-redux';
 
@@ -276,6 +277,31 @@ function AppNavigation(props) {
         <Stack.Screen
           name="Available Donors"
           component={AvailableDonors}
+          options={
+            props.login
+              ? {
+                  headerTintColor: '#ffffff',
+                  headerRight: () => (
+                    <Icon
+                      name="logout"
+                      size={30}
+                      style={{marginRight: 10}}
+                      color="#fff"
+                      onPress={() => {
+                        logout();
+                      }}
+                    />
+                  ),
+                  headerStyle: {
+                    backgroundColor: '#E6233F',
+                  },
+                }
+              : {headerShown: false}
+          }
+        />
+         <Stack.Screen
+          name="Update Info"
+          component={UpdateInfo}
           options={
             props.login
               ? {
