@@ -98,8 +98,44 @@ function Profile(props) {
       });
   }, []);
 
+  // const handleChange = () => {
+  //   setAgeInput(false)
+  // }
+
+  // {ageInput ? (
+  //   <>
+  //     <Text style={styles.name}>Age :</Text>
+  //     <TextInput
+  //       underlineColorAndroid="transparent"
+  //       selectionColor="rgba(0, 0, 0, 0.5)"
+  //       style={styles.inputs}
+  //       autoCapitalize="none"
+  //       autoCorrect={false}
+  //     />
+  //     <TouchableOpacity activeOpacity={0.5} onPress={()=>{handleChange()}}>
+  //       <Icon name="check" size={30} style={styles.icon} />
+  //     </TouchableOpacity>
+  //   </>
+  // ) : (
+  //   <>
+  //     <Text style={styles.name}>
+  //       Age : <Text>{age}</Text>
+  //     </Text>
+  //     <TouchableOpacity
+  //       onPress={() => {
+  //         setAgeInput(true);
+  //       }}>
+  //         <Text>
+
+  // <Icons name="edit" size={30} color="#214151" />
+  // </Text>
+
+  //     </TouchableOpacity>
+  //   </>
+  // )}
+
   const edit = () => {
-    props.navigation.navigate('Update Info')
+    props.navigation.navigate('Update')
   }
 
   return (
@@ -112,9 +148,9 @@ function Profile(props) {
               source={src}
               style={{width: 50, height: 50, borderRadius: 100}}
             />
-             <TouchableOpacity style={{marginLeft: 100}} activeOpacity={0.4} onPress={()=>{edit()}}>
+             {/* <TouchableOpacity style={{marginLeft: 100}} activeOpacity={0.4} onPress={()=>{edit()}}>
             <Icons name="edit" size={28} color="#214151" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           </ListItem>
         ) : (
           <></>

@@ -42,7 +42,7 @@ function Preview(props) {
   }
 
   // const edit = () => {
-  //   props.navigation.navigate('Donate')
+  //   props.navigation.navigate('Update Info')
   // }
 
   const donate = () => {

@@ -13,7 +13,6 @@ import database from '@react-native-firebase/database';
 import {connect} from 'react-redux';
 import changeAllDonors from '../store/Actions/AllDonorsAction';
 import changeDonated from '../store/Actions/DonatedAction';
-import changeFirebase from '../store/Actions/FirebaseAction';
 
 function Dashboard(props) {
   const [Donate, setDonate] = useState(false);
@@ -79,14 +78,6 @@ function Dashboard(props) {
       });
   }, []);
 
-  useEffect(()=>{
-        database()
-        .ref(`Blood_Bank_Users/${props.user}`)
-      .on('value', snapshot => {
-          props.ChangeFirebase(snapshot.val())
-      });
-      },[])
-
   useEffect(() => {
     props.ChangeAllDonors(donors);
     props.ChangeDonated(donated);
@@ -96,8 +87,9 @@ function Dashboard(props) {
     if(props.user !== null){
     database()
       .ref(`Blood_Bank_Users/${props.user}`)
+
       .on('value', snapshot => {
-        if (snapshot.val().blood !== undefined) {
+        if (snapshot.val().area !== undefined) {
           setMove('Preview')
         }
       });
@@ -191,7 +183,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProp = (dispatch) => ({
   ChangeAllDonors: (allDonors) => dispatch(changeAllDonors(allDonors)),
   ChangeDonated: (donated) => dispatch(changeDonated(donated)),
-  ChangeFirebase: (firebase) => dispatch(changeFirebase(firebase))
 });
 
 export default connect(mapStateToProps, mapDispatchToProp)(Dashboard);
