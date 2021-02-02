@@ -15,6 +15,7 @@ import {connect} from 'react-redux';
 import database from '@react-native-firebase/database';
 import Home from './Home';
 import changeFirebase from '../store/Actions/FirebaseAction';
+import Icons from 'react-native-vector-icons/MaterialIcons';
 
 function Preview(props) {
   if (props.login === false) {
@@ -26,17 +27,23 @@ function Preview(props) {
   const email = props.firebase.email;
   const user = props.firebase.user;
   const city = props.firebase.city;
-  const blood = props.blood;
-  const gender = props.gender;
-  const age = props.age;
-  const area = props.area;
-  const src = props.image
+
+  const [blood,setBlood] = useState(props.blood)
+  const [gender,setGender] = useState(props.gender)
+  const [age,setAge] = useState(props.age)
+  const [area,setArea] = useState(props.area)
+  const [src,setSrc] = useState( props.image)
 
   const [loading, setLoading] = useState(false);
+  const [loadingActive,setLoadingActive] = useState(true)
 
   if (name === undefined || name === null) {
     return <ActivityIndicator size="large" color="#214151" style={{flex: 1}} />;
   }
+
+  // const edit = () => {
+  //   props.navigation.navigate('Donate')
+  // }
 
   const donate = () => {
     setLoading(true);
@@ -99,50 +106,88 @@ function Preview(props) {
       });
   };
 
+
+  useEffect(() => {
+    if(props.user !== null){
+      
+     database()
+      .ref(`Blood_Bank_Users/${props.user}`)
+      .once('value')
+      .then((snapshot) => {
+        if ((snapshot.val().area !== undefined) && (props.area === null)) {
+          setArea(snapshot.val().area)
+          setAge(snapshot.val().age)
+          setBlood(snapshot.val().blood)
+          setGender(snapshot.val().gender)
+          setSrc(snapshot.val().src)
+          setLoadingActive(false)
+        }
+        else{
+          setArea(props.area)
+          setAge(props.age)
+          setBlood(props.blood)
+          setGender(props.gender)
+          setSrc(props.image)
+          setLoadingActive(false)
+        }
+      })}
+  }, [props.user,props.blood,props.area,props.image,props.gender]);
+
   return (
-    <View style={styles.cont}>
+    <>
+    {loadingActive 
+    ?
+    (
+      <ActivityIndicator size="large" color="#214151" style={{flex: 1}} />
+    )
+    :
+    (
+      <View style={styles.cont}>
       <List>
         <ListItem>
           <Image source={src} style={{width: 50, height: 50, borderRadius: 100}}/>
+          {/* <TouchableOpacity style={{marginLeft: 100}} activeOpacity={0.4} onPress={()=>{edit()}}>
+            <Icons name="edit" size={28} color="#214151" />
+          </TouchableOpacity> */}
         </ListItem>
         <ListItem>
       <Text style={styles.name}>
-        Name : <Text>{props.firebase.name}</Text>
+        Name : <Text>{name}</Text>
       </Text>
       </ListItem>
       <ListItem>
       <Text style={styles.name}>
-        Age : <Text>{props.age}</Text>
+        Age : <Text>{age}</Text>
       </Text>
       </ListItem>
       <ListItem>
       <Text style={styles.name}>
-        Area : <Text>{props.area}</Text>
+        Area : <Text>{area}</Text>
       </Text>
       </ListItem>
       <ListItem>
       <Text style={styles.name}>
-        City : <Text>{props.firebase.city}</Text>
+        City : <Text>{city}</Text>
       </Text>
       </ListItem>
       <ListItem>
       <Text style={styles.name}>
-        Gender : <Text>{props.gender}</Text>
+        Gender : <Text>{gender}</Text>
       </Text>
       </ListItem>
       <ListItem>
       <Text style={styles.name}>
-        Blood Group : <Text>{props.blood}</Text>
+        Blood Group : <Text>{blood}</Text>
       </Text>
       </ListItem>
       <ListItem>
       <Text style={styles.name}>
-        Mobile : <Text>{props.firebase.mobile}</Text>
+        Mobile : <Text>{mobile}</Text>
       </Text>
       </ListItem>
       <ListItem>
       <Text style={styles.name}>
-        Email : <Text style={styles.email}>{props.firebase.email}</Text>
+        Email : <Text style={styles.email}>{email}</Text>
       </Text>
       </ListItem>
       </List>
@@ -160,6 +205,10 @@ function Preview(props) {
         </Text>
       </TouchableOpacity>
     </View>
+    )
+  }
+    
+    </>
   );
 }
 

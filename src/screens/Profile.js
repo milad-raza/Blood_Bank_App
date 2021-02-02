@@ -134,6 +134,10 @@ function Profile(props) {
   //   </>
   // )}
 
+  const edit = () => {
+    props.navigation.navigate('Update')
+  }
+
   return (
     <View style={styles.cont}>
       <List>
@@ -144,6 +148,9 @@ function Profile(props) {
               source={src}
               style={{width: 50, height: 50, borderRadius: 100}}
             />
+             {/* <TouchableOpacity style={{marginLeft: 100}} activeOpacity={0.4} onPress={()=>{edit()}}>
+            <Icons name="edit" size={28} color="#214151" />
+          </TouchableOpacity> */}
           </ListItem>
         ) : (
           <></>
