@@ -32,12 +32,16 @@ function AllDonors(props) {
 
     props.navigation.navigate('Donor Profile');
   };
+  const [loader,setLoader] = useState(true)
+  const [donors,setDonors] = useState(props.donors)
 
-  const donors = props.donors;
 
-  if (donors.length < 1) {
-    return <ActivityIndicator size="large" color="#214151" style={{flex: 1}} />;
-  }
+  useEffect(()=>{
+    if(donors.length > 1){
+    setTimeout(()=>{
+      setLoader(false)
+    },1)}
+  },[])
 
   donors.sort(function(a, b){
     var nameA=a.name.toLowerCase(), nameB=b.name.toLowerCase()
@@ -48,8 +52,18 @@ function AllDonors(props) {
     return 0 //default return value (no sorting)
 })
 
+
+
+
+
   return (
     <Container>
+      {
+      (loader) ? 
+      (<ActivityIndicator size="large" color="#214151" style={{flex: 1}} />)
+      :
+      (
+      
       <ScrollView>
         {donors.map((donor, index) => {
           return (
@@ -97,6 +111,7 @@ function AllDonors(props) {
           );
         })}
       </ScrollView>
+      )}
     </Container>
   );
 }

@@ -43,7 +43,7 @@ function Profile(props) {
   const [ageInput, setAgeInput] = useState(false);
 
   useEffect(() => {
-    if (props.donorProfile !== {} && props.age !== null) {
+    if (props.donorProfile !== {} && props.blood !== null) {
       setName(props.firebase.name);
       setCity(props.firebase.city);
       setMobile(props.firebase.mobile);
@@ -135,20 +135,21 @@ function Profile(props) {
   // )}
 
   const edit = () => {
-    props.navigation.navigate('Update')
+    props.navigation.navigate('Update Info')
   }
 
   return (
     <View style={styles.cont}>
       <List>
-        {((props.firebase.src !== undefined) || props.src !== undefined )? (
+        {((props.firebase.src !== undefined))? (
           <ListItem>
             <Thumbnail
               avatar
               source={src}
               style={{width: 50, height: 50, borderRadius: 100}}
             />
-             {/* <TouchableOpacity style={{marginLeft: 100}} activeOpacity={0.4} onPress={()=>{edit()}}>
+            
+            {/* <TouchableOpacity style={{marginLeft: 100}} activeOpacity={0.4} onPress={()=>{edit()}}>
             <Icons name="edit" size={28} color="#214151" />
           </TouchableOpacity> */}
           </ListItem>
