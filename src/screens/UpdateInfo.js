@@ -125,7 +125,7 @@ function UpdateInfo(props) {
           mobile,
         })
         .then(() => {
-           props.navigation.navigate('Preview')
+           props.navigation.navigate('Dashboard')
            if (Platform.OS === 'android') {
             ToastAndroid.show("Profile Updated Successfully!", ToastAndroid.SHORT)
           } else {
@@ -134,7 +134,7 @@ function UpdateInfo(props) {
         })
       }
       else{
-        props.navigation.navigate('Preview')
+        props.navigation.navigate('Dashboard')
         if (Platform.OS === 'android') {
           ToastAndroid.show("Profile Updated Successfully!", ToastAndroid.SHORT)
         } else {
@@ -161,7 +161,7 @@ function UpdateInfo(props) {
             returnKeyType="next"
             blurOnSubmit={false}
             autoCorrect={false}
-            onChangeText={(e)=>{setArea(e)}}
+            onChangeText={(e)=>{setCity(e)}}
             value={city}
             onSubmitEditing={() => areaInput.current.focus()}
           />
@@ -177,7 +177,7 @@ function UpdateInfo(props) {
             returnKeyType="next"
             blurOnSubmit={false}
             autoCorrect={false}
-            onChangeText={(e)=>{setCity(e)}}
+            onChangeText={(e)=>{setArea(e)}}
             value={area}
             onSubmitEditing={() => ageInput.current.focus()}
           />
