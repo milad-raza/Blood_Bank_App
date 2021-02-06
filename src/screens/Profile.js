@@ -43,7 +43,7 @@ function Profile(props) {
   const [ageInput, setAgeInput] = useState(false);
 
   useEffect(() => {
-    if (props.donorProfile !== {} && props.blood !== null) {
+    if (props.donorProfile !== {} && props.age !== null) {
       setName(props.firebase.name);
       setCity(props.firebase.city);
       setMobile(props.firebase.mobile);
