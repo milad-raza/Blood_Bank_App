@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,45 +10,51 @@ const blood_bank = require('../assets/images/blood-bank.png');
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 import Dashboard from './Dashboard';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import changeLogin from '../store/Actions/LoginAction';
 import changeUser from '../store/Actions/UserAction';
 import changeFirebase from '../store/Actions/FirebaseAction';
+import changeGender from '../store/Actions/GenderAction';
+import changeAge from '../store/Actions/AgeAction';
+import changeArea from '../store/Actions/AreaAction';
+import changeRandomImage from '../store/Actions/RandomImageAction';
+import changeBloodDonate from '../store/Actions/BloodDonateAction';
+import changeDonated from '../store/Actions/DonatedAction';
+import changeAllDonors from '../store/Actions/AllDonorsAction';
+import changeDonorProfile from '../store/Actions/DonorProfileAction';
 
 function Home(props) {
-
-    useEffect(()=>{
-    return(
-    auth().onAuthStateChanged(function (user) {
+  useEffect(() => {
+    return auth().onAuthStateChanged(function (user) {
       if (user) {
-        props.ChangeLogin(true)
-        props.ChangeUser(user.uid)
+        props.ChangeLogin(true);
+        props.ChangeUser(user.uid);
 
         database()
-        .ref(`Blood_Bank_Users/${user.uid}`)
-        .once('value')
-        .then(data => {
-          props.ChangeFirebase(data.val())
-        });
-
-      } 
-      else {
-        props.ChangeLogin(false)
-        props.ChangeUser(null)
-        props.ChangeFirebase([])
+          .ref(`Blood_Bank_Users/${user.uid}`)
+          .once('value')
+          .then((data) => {
+            props.ChangeFirebase(data.val());
+          });
+      } else {
+        props.ChangeLogin(false);
+        props.ChangeUser(null);
+        props.ChangeFirebase([]);
+        props.ChangeAge(null);
+        props.ChangeArea(null);
+        props.ChangeDonated(null);
+        props.ChangeGender(null);
+        props.ChangeBloodDonate(null);
+        props.ChangeAllDonors([]);
+        props.ChangeDonated(null);
+        props.ChangeImage('');
+        props.ChangeDonorProfile({});
       }
-    }));
-  },[auth])
-  
-      // console.log(props.login)
-      // console.log(props.user)
-      // console.log(props.blood)
-      // console.log(props.gender)
-      // console.log(props.age)
-      // console.log(props.area)
+    });
+  }, [auth]);
 
-  if ((props.login)) {
-    return (<Dashboard data={props.navigation} />);
+  if (props.login) {
+    return <Dashboard data={props.navigation} />;
   }
 
   return (
@@ -130,12 +136,20 @@ const mapStateToProps = (state) => ({
   gender: state.Gender.gender,
   age: state.Age.age,
   area: state.Area.area,
-})
+});
 
 const mapDispatchToProp = (dispatch) => ({
   ChangeLogin: (login) => dispatch(changeLogin(login)),
   ChangeUser: (user) => dispatch(changeUser(user)),
-  ChangeFirebase: (firebase) => dispatch(changeFirebase(firebase))
-})
+  ChangeFirebase: (firebase) => dispatch(changeFirebase(firebase)),
+  ChangeGender: (gender) => dispatch(changeGender(gender)),
+  ChangeAge: (age) => dispatch(changeAge(age)),
+  ChangeArea: (area) => dispatch(changeArea(area)),
+  ChangeImage: (image) => dispatch(changeRandomImage(image)),
+  ChangeDonated: (donated) => dispatch(changeDonated(donated)),
+  ChangeBloodDonate: (bloodDonate) => dispatch(changeBloodDonate(bloodDonate)),
+  ChangeAllDonors: (allDonors) => dispatch(changeAllDonors(allDonors)),
+  ChangeDonorProfile: (donorProfile) => dispatch(changeDonorProfile(donorProfile)),
+});
 
-export default connect(mapStateToProps,mapDispatchToProp)(Home);
+export default connect(mapStateToProps, mapDispatchToProp)(Home);
